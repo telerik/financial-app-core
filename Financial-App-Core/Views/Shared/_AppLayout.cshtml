@@ -1,0 +1,120 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IgnoreBody();
+}
+
+@(Html.Kendo().Drawer()
+    .Name("drawer")
+    .TemplateId("drawerTemplate")
+    .Mode("push")
+    .Position("left")
+    .Width(238)
+    .Mini(true)
+    .Expanded(false)
+    .AutoCollapse(false)
+    .SwipeToOpen(true)
+    .Navigatable(true)
+    .Events(ev => ev.ItemClick("onItemClick"))
+    .Content(@<text>
+    <div class="k-d-flex k-flex-col k-gap-5 k-mx-auto" style="max-width: 1200px;">
+        @RenderBody()
+    </div>
+</text>)
+)
+
+<script id="drawerTemplate" type="text/html">
+    <ul>
+        <li><a class="k-link" id="menuButton" data-role='drawer-item'><span id="menu"></span>Menu</a></li>
+        <li data-role='drawer-separator'></li>
+        <li><a class="k-link drawer-item" href="@Url.Action("Index", "Home")" data-role='drawer-item' id="homeItem"><span id="home"></span>Home</a></li>
+        <li><a class="k-link drawer-item" href="@Url.Action("Transactions", "Home")" data-role='drawer-item' id="transactionsItem"><span id="transactions"></span>Transactions</a></li>
+        <li><a class="k-link drawer-item" href="@Url.Action("Investments", "Home")" data-role='drawer-item' id="investmentsItem"><span id="investments"></span>Investments</a></li>
+        <li><a class="k-link drawer-item" href="@Url.Action("Analytics", "Home")" data-role='drawer-item' id="analyticsItem"><span id="analytics"></span>Analytics</a></li>
+        <li data-role='drawer-separator'></li>
+        <li><a class="k-link drawer-item" href="@Url.Action("Settings", "Home")" data-role='drawer-item' id="settingsItem"><span id="settings"></span>Settings</a></li>
+    </ul>
+</script>
+
+<script>
+    var isDrawerVisible = sessionStorage.getItem("isDrawerVisible") === "true";
+
+    $(document).ready(function() {
+        kendo.ui.icon($("#menu"), { icon: 'menu' });
+        kendo.ui.icon($("#home"), { icon: 'grid' });
+        kendo.ui.icon($("#transactions"), { icon: 'arrows-swap' });
+        kendo.ui.icon($("#investments"), { icon: 'dollar' });
+        kendo.ui.icon($("#analytics"), { icon: 'chart-column-stacked' });
+        kendo.ui.icon($("#settings"), { icon: 'gear' });
+
+        highlightActiveMenu();
+        resizeWidgets();
+        $(window).resize(resizeWidgets);
+
+        var drawerInstance = $("#drawer").data("kendoDrawer");
+        if (isDrawerVisible) {
+            drawerInstance.show();
+            $(".k-drawer-content").addClass("overlay-active");
+        } 
+        else {
+            drawerInstance.hide();
+            $(".k-drawer-content").removeClass("overlay-active");
+        }
+
+    });
+
+    function toggleDrawer() {
+        var drawerInstance = $("#drawer").data("kendoDrawer");
+
+        if (isDrawerVisible) {
+            drawerInstance.hide();
+            $(".k-drawer-content").removeClass("overlay-active");
+            isDrawerVisible = false;
+        } 
+        else {
+            drawerInstance.show();
+            $(".k-drawer-content").addClass("overlay-active");
+            isDrawerVisible = true;
+        }
+
+        sessionStorage.setItem("isDrawerVisible", isDrawerVisible);
+        highlightActiveMenu();
+    }
+
+    function onItemClick(e) {
+        var ariaLabel = e.item[0].text;
+
+        if (ariaLabel === "Menu") {
+            e.preventDefault();
+            $(e.item[0]).removeClass("k-selected");
+            toggleDrawer();
+        }
+    }
+
+    function highlightActiveMenu() {
+        var currentUrl = window.location.pathname.toLowerCase();
+        $(".drawer-item").removeClass("k-selected");
+
+        $(".drawer-item").each(function() {
+            var itemUrl = $(this).attr("href").toLowerCase().split("?")[0];
+
+            if (itemUrl === currentUrl) {
+                $(this).addClass("k-selected");
+            }
+        });
+    }
+
+    function resizeWidgets() {
+        $(".k-chart").each((idx, elem) => $(elem).getKendoChart().resize(true));
+
+        $("#budgetGauge > div").css("width", "100%");
+
+        var gauge = $("#budgetGauge").data("kendoArcGauge");
+
+        if (gauge) {
+            gauge.redraw();
+        }
+
+        console.log($(window))
+        
+    }
+</script>

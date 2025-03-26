@@ -1,0 +1,132 @@
+﻿@using Financial_App_Core.Models
+@{
+    ViewData["Title"] = "Overview";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+@Html.Partial("_DrawerHeader")
+
+<h1 class="overview k-px-15 k-m-0">Overview</h1>
+<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-15">
+    <div class="k-col-span-6 k-col-span-md-2">
+        <div class="listview-card k-p-4">
+            <h4>Earnings</h4>
+            <h3 class="amount">15 000.00 USD</h3>
+            <p><span class="positive">+200%</span> than the last month</p>
+        </div>
+    </div>
+    <div class="k-col-span-6 k-col-span-md-2">
+        <div class="listview-card k-p-4">
+            <h4>Spendings</h4>
+            <h3 class="amount">50 000.00 USD</h3>
+            <p><span class="positive">+100%</span> than the last month</p>
+        </div>
+    </div>
+    <div class="k-col-span-6 k-col-span-md-2">
+        <div class="listview-card k-p-4">
+            <h4>Investments</h4>
+            <h3 class="amount">35 000.00 USD</h3>
+            <p><span class="negative">-80%</span> than the last month</p>
+        </div>
+    </div>
+    <div class="k-col-span-6 k-col-span-md-3">
+        <div class="listview-card k-p-4">
+            <h4>Savings</h4>
+            <div>104,500.00 USD</div>
+
+            <div class="progressBars">
+                <div class="progressBarItem">
+                    <div class="inputLabel"><label>Education</label> 3 000 USD</div>
+                    @(Html.Kendo().ProgressBar()
+                        .Name("educationProgress")
+                        .Value(30)
+                        .Max(100)
+                    )
+                </div>
+                
+                <div class="progressBarItem">
+                    <div class="inputLabel"><label>Dream Home</label><span>25 000 USD</span></div>
+                    @(Html.Kendo().ProgressBar()
+                        .Name("dreamHomeProgress")
+                        .Value(30)
+                        .Max(100)
+                    )
+                </div>
+                
+                <div class="progressBarItem">
+                    <div class="inputLabel"><label>Car</label><span>6 500 USD</span></div>
+                    @(Html.Kendo().ProgressBar()
+                        .Name("carProgress")
+                        .Value(30)
+                        .Max(100)
+                    )
+                </div>
+                
+                <div class="progressBarItem">
+                    <div class="inputLabel"><label>Holidays</label><span>20 000 USD</span></div>
+                    @(Html.Kendo().ProgressBar()
+                        .Name("holidaysProgress")
+                        .Value(30)
+                        .Max(100)
+                    )
+                </div>
+                
+                <div class="progressBarItem">
+                     <div class="inputLabel"><label>Health Care</label><span>50 000 USD</span></div>
+                     @(Html.Kendo().ProgressBar()
+                         .Name("healthCareProgress")
+                         .Value(30)
+                         .Max(100)
+                     )
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="k-col-span-6 k-col-span-md-3">
+        <div class="listview-card k-p-4">
+            <h4>Budget Utilization</h4>
+            <div>50% of the Buget used</div>
+
+            <div class="gaugeWrapper">
+                @(Html.Kendo().ArcGauge()
+                    .Name("budgetGauge")
+                    .Value(50)
+                    .Scale(s => s.RangeSize(15).RangePlaceholderColor("#525252"))
+                    .CenterTemplate("<span class='gauge-center'>#= value #%</span>")
+                    .Scale(scale => scale.Min(0).Max(100).Labels(labels => labels.Visible(false)))
+                    .Colors(colors => colors.Add().From(0).To(50).Color("#1D84D6"))
+                )
+            </div>
+            <div class="budget-labels">
+               <div class="budget-values">15,000.00 USD<strong>Total budget</strong></div>
+               <div class="separator"></div>
+               <div class ="budget-values">7,500.00 USD<strong>Used budget</strong></div>
+            </div>
+         </div>
+    </div>
+    <div class="k-col-span-6 listview-card k-p-4">
+            <h4>Transactions</h4>
+            @(Html.Kendo().Grid<TransactionModel>()
+                .Name("transactionsGrid")
+                .ToolBar(t => { t.Excel(); t.Pdf(); })
+                .Columns(columns =>
+                {
+                    columns.Select().HtmlAttributes(new { @class = "selectColumn" }).HeaderHtmlAttributes(new { @class = "selectColumn" });
+                    columns.Bound(t => t.Date).Title("Date").Format("{0:MM/dd/yy}").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(t => t.Amount).Title("Amount").Format("{0:n2}").ClientTemplate("<span class='amountElem'>#=Amount# BGN</span>").ColumnMenu(false).HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: right; min-width: 80px;" });
+                    columns.Bound(t => t.Merchant).Title("Merchant").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(t => t.Category).Title("Category").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(t => t.PayMethod).Title("Pay Method").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(t => t.Status).Title("Status").ClientTemplate("<span class='badgeTemplate'></span>").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center" }).HtmlAttributes(new { style = "text-align: center" });
+                })
+                .ColumnMenu(c => c.Enabled(true))
+                .Pageable(p => p.PageSizes(new[] { 7, 10, 30 }).PreviousNext(true).Responsive(true))
+                .Groupable(g => g.Messages(m => m.Empty("Drag a column header here to group by it")))
+                .Mobile(MobileMode.Phone)
+                .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetTransactions", "Grid")).PageSize(7))
+                .Events(e => e.DataBound("onDataBound"))
+            )
+    </div>
+</div>
+
+

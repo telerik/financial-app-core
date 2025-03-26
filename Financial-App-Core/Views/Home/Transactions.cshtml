@@ -1,0 +1,96 @@
+﻿@using Financial_App_Core.Models
+@{
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+@Html.Partial("_DrawerHeader")
+
+<h1 class="overview k-px-15 k-m-0">Translactions</h1>
+<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-15">
+    <div class="k-col-span-6 k-col-span-md-4">
+        <div class="listview-card k-p-4">
+            <h4>Personal Transactions</h4>
+            @(Html.Kendo().Grid<TransactionModel>()
+                .Name("transactionsGrid")
+                .ToolBar(t => { t.Excel(); t.Pdf(); })
+                .Columns(columns =>
+                {
+                    columns.Select().HtmlAttributes(new { @class = "selectColumn" }).HeaderHtmlAttributes(new { @class = "selectColumn" }).Width(50);
+                    columns.Bound(t => t.Date).Title("Date").Format("{0:MM/dd/yy}").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(t => t.Amount).Title("Amount").Format("{0:n2}").ClientTemplate("<span class='amountElem'>#=Amount# BGN</span>").ColumnMenu(false).HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: right; min-width: 80px;" });
+                    columns.Bound(t => t.Merchant).Title("Merchant").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(t => t.Status).Title("Status").ClientTemplate("<span class='badgeTemplate'></span>").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center" }).HtmlAttributes(new { style = "text-align: center" });
+                })
+                .ColumnMenu(c => c.Enabled(true))
+                .Pageable(p => p.PageSizes(new[] { 7, 10, 30 }))
+                .Groupable(g => g.Messages(m => m.Empty("Drag a column header here to group by it")))
+                .Mobile(MobileMode.Phone)
+                .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetTransactions", "Grid")).PageSize(11))
+                .Events(e => e.DataBound("onDataBound"))
+            )
+        </div>
+    </div>
+    <div class="k-col-span-6 k-col-span-md-2">
+        <div class="listview-card k-p-2">
+            <h4>Transaction Details</h4>
+
+            <div>
+                <div>
+                    <span class="k-d-inline-block">Murchant</span>
+                    @(Html.Kendo().TextBox()
+                        .Name("murchant")
+                        .Value("Starbucks")
+                    )
+                </div>
+            </div>
+            <div>
+                <div class="k-d-grid">
+                    <span>Order Status</span>
+                    @(Html.Kendo().Badge()
+                        .Name("orderBadge")
+                        .ThemeColor(BadgeColor.Success)
+                        .Size(BadgeSize.Large)
+                        .Text("Published")
+                        .Rounded(Rounded.Large)
+                        .FillMode(BadgeFill.Solid)
+                        .HtmlAttributes(new { style = "width: 20%; color: white;" })
+                    )
+                </div>
+            </div>
+            <div>
+                <div class="k-d-grid">
+                    <span class="k-d-inline-block">Time</span>
+                    @(Html.Kendo().TextBox()
+                        .Name("time")
+                        .Value("09:10 AM January 1,2025")
+                    )
+                </div>
+            </div>
+            <div>
+                <div class="k-d-grid">
+                    <span class="k-d-inline-block">Customer</span>
+                    @(Html.Kendo().TextBox()
+                        .Name("customer")
+                        .Value("Maria Johnson")
+                        )
+                </div>
+            </div>
+            <div>
+                <div class="k-d-grid">
+                    <span class="k-d-inline-block">Email</span>
+                    @(Html.Kendo().TextBox()
+                        .Name("email")
+                        .Value("mariajohnson@email.com")
+                        )
+                </div>
+            </div>
+            <div>
+                <div class="k-d-grid">
+                    <span class="k-d-inline-block">Payment Method</span>
+
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>

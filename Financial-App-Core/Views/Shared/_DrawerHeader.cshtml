@@ -1,0 +1,50 @@
+﻿<div class="top-container k-px-15">
+        <div class="top-bar k-d-flex k-flex-col k-flex-sm-row k-justify-content-between k-align-items-center k-gap-4">
+            <div class="profile-section k-d-flex k-flex-1 k-align-items-center k-gap-4">
+                <div class="k-d-flex k-justify-content-start k-gap-4">
+                    <div id="avatar-text" class="avatar-margin-right-5 k-avatar k-avatar-solid-primary k-avatar-solid k-avatar-md k-rounded-full">
+                        <span>
+                            @(Html.Kendo().Avatar()
+                                .Name("avatar-image-second")
+                                .Type(AvatarType.Image)
+                                .Rounded(Rounded.Full)
+                                .Image("/images/Maria.jpg") 
+                            )
+                        </span>
+                     </div>
+                    <div class="welcome-text k-d-flex k-flex-col k-gap-1">
+                        <h4 class="k-m-0 k-font-size-xl">Hi, Maria!</h4>
+                        <span>Welcome back</span>
+                    </div>
+                </div>
+                <div class="k-flex-1 k-d-flex k-justify-content-center">
+                    @(Html.Kendo().TextBox()
+                        .Name("search")
+                        .Placeholder("Search")
+                        .Size(ComponentSize.Medium)
+                        .Rounded(Rounded.Large)
+                        .PrefixOptions(p => p.Icon("search"))
+                        .HtmlAttributes(new { style = "width: 60%; border: none;" })
+                    )
+                </div>
+            </div>
+            <div class="k-d-flex k-gap-4">
+                    @(Html.Kendo().Button()
+                        .Name("aiAssistant")
+                        .Content("AI ASSISTANT")
+                        .ThemeColor(ThemeColor.Primary)
+                    )
+            <div>
+                @(Html.Kendo().DropDownList()
+                    .Name("language")
+                    .BindTo(new List<string>() {
+                        "English"
+                    })
+                    .Rounded(Rounded.Large)
+                    .HtmlAttributes(new { style = "background-color: #FFFFFF; color: black;" })
+                )
+            </div>
+            </div>
+        </div>
+</div>
+

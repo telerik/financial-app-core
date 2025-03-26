@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+@Html.Partial("_DrawerHeader")
+
+<h2>Analytics</h2>
+
+<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-15">
+    <div class="k-col-span-6 k-col-span-md-6" style="border: 1px solid red">
+        <div class="listview-card k-p-4">
+            @(Html.Kendo().Chart<Financial_App_Core.Models.CashflowModel>()
+                .Name("chart")
+                .Legend(legend => legend
+                    .Position(ChartLegendPosition.Top)
+                )
+                .DataSource(ds => ds.Read(read => read.Action("GetCashflowData", "Chart")))
+                .Series(series =>
+                {
+                    series.Column(model => model.Stocks).Name("Nuclear").CategoryField("Month");
+                    series.Column(model => model.RealEstate).Name("Hydro").CategoryField("Month");
+                    series.Column(model => model.Bonds).Name("Wind").CategoryField("Month");
+                })
+                .CategoryAxis(axis => axis
+                    .Labels(labels => labels.Rotation(-90))
+                    .MajorGridLines(lines => lines.Visible(false))
+                )
+                .ValueAxis(axis => axis.Numeric()
+                .Labels(labels => labels.Format("{0:N0}"))
+                .MajorUnit(10000)
+                .Line(line => line.Visible(false))
+                )
+                .Tooltip(tooltip => tooltip
+                    .Visible(true)
+                    .Format("{0:N0}")
+                )
+            )
+        </div>
+    </div>
+    <div class="k-col-span-6 k-col-span-md-6" style="border: 1px solid green">
+    </div>
+</div>

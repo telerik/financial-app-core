@@ -1,0 +1,156 @@
+﻿body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.overlay-active {
+    opacity: 0.2;
+}
+
+.k-drawer-item.k-selected {
+    background-color: #9FA8DA;
+    color: black;
+}
+
+.listview-card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+}
+
+.amount {
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    margin-bottom: 4px;
+}
+
+.positive {
+    color: #86B079;
+}
+
+.negative {
+    color: #B05768;
+}
+
+.transactions-container {
+    display: flex;
+    gap: 16px;
+    padding: 0px 24px;
+    width: 1140px;
+}
+
+.k-grid {
+    background-color: #1e1e1e;
+}
+
+.k-grid-header {
+    font-weight: 600;
+}
+
+.k-grid td {
+    border-color: #2a2a2a;
+    padding: 12px;
+}
+
+.status-Published {
+    color: #8bc34a;
+}
+
+.status-Postponed {
+    color: #ff9800;
+}
+
+.status-Pending {
+    color: #ff5252;
+}
+
+.grid-container {
+    padding: 12px 24px 24px;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+}
+
+.budget-values {
+    display: grid;
+}
+
+.gauge-center {
+    color: #1D84D6;
+    font-size: xx-large;
+    font-weight: 600;
+}
+
+.footer {
+    background-color: var(--kendo-color-surface-alt, #212121);
+    padding-top: 12px;
+}
+
+.badgeTemplate {
+    width: 70px;
+    height: 26px;
+}
+
+.selectColumn {
+    background-color: #2a2a2a;
+    border: 1px solid var(--kendo-color-border);
+    border-right: 1px solid white;
+    border-right-width: 1px !important;
+}
+
+.k-select-checkbox {
+    border: none;
+    background-color: #E0E0E0;
+    opacity: 0.1;
+}
+
+.k-progress-status {
+    display: none;
+}
+
+.inputLabel {
+    font: var(--font-family/kendo-font-family);
+    font-weight: var(--font-weight/kendo-font-weight-normal);
+    font-size: var(--font-size/kendo-font-size-lg);
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    justify-content: space-between;
+    display: flex;
+    padding-top: 1%;
+}
+
+.budget-labels {
+    display: flex;
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 35px;
+    margin-bottom: 35px;
+    justify-content: center;
+}
+
+.k-input-solid {
+    border-bottom-right-radius: 6px !important;
+    border-bottom-left-radius: 6px !important;
+}
+
+.k-picker-solid {
+    border-bottom-right-radius: 6px !important;
+    border-bottom-left-radius: 6px !important;
+}
+
+.separator {
+    width: 2px;
+    height: 50px;
+    background-color: #525252;
+    margin: 0 15px;
+}
+
+.gaugeWrapper{
+    text-align: center;
+}
+
+.progressBarItem {
+    padding-top: 15px;
+}

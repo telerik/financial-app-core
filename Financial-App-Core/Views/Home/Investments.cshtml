@@ -1,0 +1,82 @@
+﻿@{
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+@Html.Partial("_DrawerHeader")
+
+<h2>Investments</h2>
+<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-15">
+    <div class="k-col-span-6 k-col-span-md-2" style="border: 1px solid red">
+        <div class="listview-card k-p-4">
+            @(Html.Kendo().Chart()
+                .Name("chart")
+                .ChartArea(chart => chart
+                    .Background("transparent")
+                )
+                .Series(series =>
+                {
+                    series.Pie(new dynamic[] {
+                        new {category="Stocks",value=60,color="#9C27B0"},
+                        new {category="Real Estates",value=60,color="#1D84D6"},
+                        new {category="Bonds",value=60,color="#008478"},
+                        new {category="Mutual Funds",value=60,color="#E0CF34"},
+                        new {category="Cryptocurrency",value=60,color="#F44336"},
+                        new {category="Commodities",value=60,color="#439A46"}
+                    })
+                    .Labels(labels => labels
+                        .Visible(false)
+                    );
+                })
+                .Tooltip(tooltip => tooltip
+                    .Visible(true)
+                    .Format("{0}%")
+                )
+                .Legend(l => l
+                    .Visible(true)
+                    .Orientation(ChartLegendOrientation.Vertical)
+                    .Position(ChartLegendPosition.Right)
+                    .Item(i => i.Markers(m => m.Type(ChartMarkerShape.Triangle)))
+                )
+            )
+        </div>
+    </div>
+    <div class="k-col-span-6 k-col-span-md-4" style="border: 1px solid green">
+    </div>
+
+    <div class="k-col-span-6 k-col-span-md-6" style="border: 1px solid yellow">
+        <div class="listview-card k-p-4">
+            @(Html.Kendo().StockChart<Financial_App_Core.Models.StockDataPoint>()
+                .Name("stockChart")
+                .Title("The Boeing Company (NYSE:BA)")
+                .DataSource(ds => ds.Read(read => read
+                    .Action("GetStockData", "Chart")
+                ))
+                .DateField("Date")
+                .Panes(panes =>
+                {
+                    panes.Add().Title("Value");
+                    panes.Add("volumePane").Title("Volume").Height(150);
+                })
+                .CategoryAxis(axis => axis.Pane("volumePane"))
+                .ValueAxis(axis => axis.Numeric().Line(line => line.Visible(false)))
+                .ValueAxis(axis => axis.Numeric("volumeAxis").Pane("volumePane").Visible(false))
+                .Series(series =>
+                {
+                    series.Candlestick(s => s.Open, s => s.High, s => s.Low, s => s.Close);
+                    series.Column(s => s.Volume).Axis("volumeAxis")
+                            .Tooltip(tooltip => tooltip.Format("{0:C0}"));
+                })
+                .Navigator(nav => nav
+                    .Series(series =>
+                    {
+                        series.Area(s => s.Close);
+                    })
+                    .Select(
+                        DateTime.Parse("2018/02/05"),
+                        DateTime.Parse("2020/10/07")
+                    )
+                )
+            )
+        </div>
+    </div>
+</div>

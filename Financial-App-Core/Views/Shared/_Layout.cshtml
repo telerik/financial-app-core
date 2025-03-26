@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Financial_App_Core</title>
+
+    <link href="https://kendo.cdn.telerik.com/themes/10.2.0/material/material-main-dark.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+    <script src="https://cdn.kendostatic.com/2025.1.227/js/kendo.all.min.js"></script>
+    <script src="https://cdn.kendostatic.com/2025.1.227/js/kendo.aspnetmvc.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/10.2.0/utils/all.css" />
+</head>
+<body class="k-content">
+    @(Html.Kendo().DeferredScriptFile())
+            @RenderBody()
+
+    <div class="k-py-6.5 k-px-15 k-bg-surface-alt">
+        <p class="!k-my-0">Copyright © 2024 Progress Software. All rights reserved.</p>
+    </div>
+
+    <environment names="Development">
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
