@@ -28,4 +28,20 @@
             
             kendo.bind($(this), dataItem);
         });
- }
+}
+
+$(document).on("click", ".legend-toggle", function () {
+    const chart = $("#cashFlow").data("kendoChart");
+    const seriesName = $(this).data("series");
+
+    const seriesIndex = chart.options.series.findIndex(s => s.name === seriesName);
+    if (seriesIndex >= 0) {
+        const series = chart.options.series[seriesIndex];
+        series.visible = !series.visible;
+
+        // Optional: toggle class to style inactive legend
+        $(this).toggleClass("inactive", !series.visible);
+
+        chart.refresh();
+    }
+});

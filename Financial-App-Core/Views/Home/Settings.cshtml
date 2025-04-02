@@ -1,5 +1,180 @@
 ﻿@{
     Layout = "~/Views/Shared/_AppLayout.cshtml";
 }
-<h2>Settings</h2>
-<p>Customize your preferences.</p>
+
+@Html.Partial("_DrawerHeader")
+
+<h1 class="k-px-15 k-m-0">Settings</h1>
+
+<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-15">
+    <div class="k-col-span-6 k-col-span-md-4">
+        <div class="listview-card k-p-4">
+            <h4>Personal Information</h4>
+            <div class="k-d-flex k-flex-col k-gap-4">
+                <div class="k-d-grid k-grid-cols-1 k-grid-cols-md-2 k-gap-4">
+                    <div>
+                        <span class="k-d-inline-block">Name</span>
+                        @(Html.Kendo().TextBox()
+                            .Name("firstName")
+                            .Value("Maria")
+                        )
+                    </div>
+                    <div>
+                        <span class="k-d-inline-block">Surname</span>
+                        @(Html.Kendo().TextBox()
+                            .Name("lastName")
+                            .Value("Johnson")
+                        )
+                    </div>
+                </div>
+                <div class="k-d-grid k-grid-cols-1 k-grid-cols-md-2 k-gap-4">
+                    <div>
+                        <span class="k-d-inline-block">Email</span>
+                        @(Html.Kendo().TextBox()
+                            .Name("email")
+                            .Value("mariajohnson@email.com")
+                        )
+                    </div>
+                    <div>
+                        <span class="k-d-inline-block">Tag</span>
+                        @(Html.Kendo().TextBox()
+                            .Name("tag")
+                            .Value("@MhJd.J09i")
+                        )
+                    </div>
+                </div>
+                <div class="k-d-grid k-grid-cols-1 k-grid-cols-md-2 k-gap-4">
+                    <div>
+                        <span class="k-d-inline-block">Birthday</span>
+                        @(Html.Kendo().DatePicker()
+                            .Name("birthday")
+                            .Value("01/01/1987")
+                        )
+                    </div>
+                    <div>
+                        <span class="k-d-inline-block">Country</span>
+                        @(Html.Kendo().DropDownList()
+                            .Name("country")
+                            .Value("USA")
+                            .BindTo(new List<string> { "USA", "UK", "Germany", "France" })
+                        )
+                    </div>
+                </div>
+                <div class="k-d-grid k-grid-cols-1 k-grid-cols-md-2 k-gap-4">
+                    <div>
+                        <span class="k-d-inline-block">Address</span>
+                        @(Html.Kendo().TextBox()
+                            .Name("address")
+                            .Value("James Dean 124")
+                        )
+                    </div>
+                    <div>
+                        <span class="k-d-inline-block">Post Code</span>
+                        @(Html.Kendo().TextBox()
+                            .Name("postcode")
+                            .Value("1000")
+                        )
+                    </div>
+                </div>
+                <div class="k-d-flex k-justify-content-start k-gap-4 k-mt-4">
+                    @(Html.Kendo().Button()
+                        .Name("savePersonal")
+                        .Content("SAVE")
+                        .Rounded(Rounded.Large)
+                        .ThemeColor(ThemeColor.Primary)
+                    )
+                    @(Html.Kendo().Button()
+                        .Name("restorePersonal")
+                        .Content("RESTORE")
+                        .Rounded(Rounded.Large)
+                        .FillMode(ButtonFillMode.Outline)
+                        .ThemeColor(ThemeColor.Light)
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="k-col-span-6 k-col-span-md-2">
+        <div class="listview-card k-p-4 k-gap-6 k-d-flex k-flex-col">
+            <h4>Calendar</h4>
+            @(Html.Kendo().Calendar()
+                .Name("calendar")
+                .Value(new DateTime(2025, 1, 1))
+            )
+        </div>
+    </div>
+
+    <div class="k-col-span-6 k-col-span-md-4">
+        <div class="listview-card k-p-4">
+            <h4>Card Information</h4>
+            <div class="k-d-flex k-flex-col k-gap-4">
+                <div class="k-d-grid">
+                    <span class="k-d-inline-block">Bank</span>
+                    @(Html.Kendo().TextBox()
+                        .Name("bank")
+                        .Value("Non-Existent Bank")
+                    )
+                </div>
+                <div class="k-d-grid">
+                    <span class="k-d-inline-block">Expiry Date</span>
+                    @(Html.Kendo().DatePicker()
+                        .Name("expiryDate")
+                        .Start(CalendarView.Year)
+                        .Depth(CalendarView.Year)
+                        .Format("MM/yyyy")
+                        .Value("04/2026")
+                    )
+                </div>
+                <div class="k-d-grid k-grid-cols-1 k-grid-cols-md-2 k-gap-4">
+                    <div>
+                        <span class="k-d-inline-block">Cardholder</span>
+                        @(Html.Kendo().TextBox()
+                            .Name("cardholder")
+                            .Value("Maria Johnson")
+                        )
+                    </div>
+                    <div>
+                        <span class="k-d-inline-block">Card Number</span>
+                        @(Html.Kendo().MaskedTextBox()
+                            .Name("cardNumber")
+                            .Mask("0000 0000 0000 0000")
+                        )   
+                    </div>
+                </div>
+                <div class="k-d-flex k-justify-content-start k-gap-4 k-mt-4">
+                    @(Html.Kendo().Button()
+                        .Name("saveCard")
+                        .Content("SAVE")
+                        .Rounded(Rounded.Large)
+                        .ThemeColor(ThemeColor.Primary)
+                    )
+                    @(Html.Kendo().Button()
+                        .Name("restoreCard")
+                        .Content("RESTORE")
+                        .Rounded(Rounded.Large)
+                        .FillMode(ButtonFillMode.Outline)
+                        .ThemeColor(ThemeColor.Light)
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="k-col-span-6 k-col-span-md-2">
+        <div class="listview-card k-p-4 k-gap-6 k-d-flex k-flex-col">
+            <h4>Weather</h4>
+            <div class="k-d-flex k-flex-col k-align-items-center k-gap-2">
+                <img src="~/images/weather-cloudy.svg" alt="Partly Cloudy" style="width: 48px;" />
+                <span class="k-text-center">Partly Cloudy</span>
+                <span class="k-text-center" style="font-size: 1.8rem;">12°C</span>
+            </div>
+            <div class="k-d-flex k-flex-col k-gap-1">
+                <span>Humidity: 56%</span>
+                <span>Dew: 2°C</span>
+                <span>Pressure: 1043 mb</span>
+                <span>Wind Speed: 30 km/h NW</span>
+            </div>
+        </div>
+    </div>
+</div>

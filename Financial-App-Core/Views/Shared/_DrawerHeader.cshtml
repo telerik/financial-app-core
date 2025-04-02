@@ -18,14 +18,23 @@
                     </div>
                 </div>
                 <div class="k-flex-1 k-d-flex k-justify-content-center">
-                    @(Html.Kendo().TextBox()
-                        .Name("search")
-                        .Placeholder("Search")
-                        .Size(ComponentSize.Medium)
-                        .Rounded(Rounded.Large)
-                        .PrefixOptions(p => p.Icon("search"))
-                        .HtmlAttributes(new { style = "width: 60%; border: none;" })
+                @(Html.Kendo().AutoComplete()
+                    .Name("searchViews")
+                    .Placeholder("Search")
+                    .Filter("startswith")
+                    .MinLength(1)
+                    .HtmlAttributes(new { style = "width: 60%; border: none;" })
+                    .BindTo(new string[] {
+                         "Home",
+                         "Transactions",
+                         "Investments",
+                         "Analytics",
+                         "AI Assistant",
+                         "Settings"
+                    })
+                    .Events(e => e.Select("onViewSelected"))
                     )
+
                 </div>
             </div>
             <div class="k-d-flex k-gap-4">
@@ -33,18 +42,180 @@
                         .Name("aiAssistant")
                         .Content("AI ASSISTANT")
                         .ThemeColor(ThemeColor.Primary)
+                        .Events(e => e.Click("openAiAssistant"))
                     )
             <div>
                 @(Html.Kendo().DropDownList()
-                    .Name("language")
+                    .Name("currency")
                     .BindTo(new List<string>() {
-                        "English"
+                        "USD",
+                        "EUR"
                     })
                     .Rounded(Rounded.Large)
                     .HtmlAttributes(new { style = "background-color: #FFFFFF; color: black;" })
+                    .Events(e => e.Change("onCurrencyChange"))
                 )
             </div>
             </div>
         </div>
 </div>
 
+<script>
+    var stored = sessionStorage.getItem("selectedCurrency");
+    var currentCurrency = stored ? stored : "USD";
+
+    function onCurrencyChange(e) {
+        currentCurrency = this.value();
+        sessionStorage.setItem("selectedCurrency", currentCurrency);
+        updateCurrencyValues();
+        updateGridCurrency();
+        updateChartCurrency();
+    }
+
+    $(document).ready(function () {
+            var ddl = $("#currency").data("kendoDropDownList");
+            if (ddl && ddl.value() !== currentCurrency) {
+                ddl.value(currentCurrency);
+            }
+
+            updateCurrencyValues();
+
+            setTimeout(function () {
+                updateGridCurrency();
+                updateChartCurrency();
+            }, 200);
+    });
+
+    function convertCurrency(amount, toCurrency) {
+        let rate = 1;
+        if (toCurrency === "EUR") rate = 0.9;
+        return (amount * rate).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    function updateCurrencyValues() {
+        $(".currency-value").each(function () {
+            var amount = parseFloat($(this).data("amount"));
+            if (!isNaN(amount)) {
+                var value = convertCurrency(amount, currentCurrency);
+                if ($(this).find("strong").length > 0) {
+                    var strongHtml = $(this).find("strong").prop("outerHTML");
+                    $(this).html(`${value} ${currentCurrency}${strongHtml}`);
+                } else {
+                    $(this).text(`${value} ${currentCurrency}`);
+                }
+            }
+        });
+    }
+
+    function updateGridCurrency() {
+        $("#transactionsGrid .currency-value").each(function () {
+            var amount = parseFloat($(this).data("amount"));
+            if (!isNaN(amount)) {
+                var value = convertCurrency(amount, currentCurrency);
+                $(this).text(`${value} ${currentCurrency}`);
+            }
+        });
+    }
+
+    function updateChartCurrency() {
+        const formatSuffix = " " + currentCurrency;
+
+        var stockChart = $("#stockChart").data("kendoStockChart");
+        if (stockChart) {
+            stockChart.options.series.forEach(series => {
+                if (series.type === "column") {
+                    series.tooltip = {
+                        visible: true,
+                        template: "#= convertCurrency(value, '" + currentCurrency + "') #" + formatSuffix
+                    };
+                }
+
+                if (series.type === "candlestick") {
+                    series.tooltip = {
+                        visible: true,
+                        template:
+                            "Open: #= convertCurrency(open, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
+                            "High: #= convertCurrency(high, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
+                            "Low: #= convertCurrency(low, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
+                            "Close: #= convertCurrency(close, '" + currentCurrency + "') #" + formatSuffix
+                    };
+                }
+            });
+
+            stockChart.options.valueAxis.forEach(axis => {
+                axis.labels = axis.labels || {};
+                axis.labels.template = "#= convertCurrency(value, '" + currentCurrency + "') #" + formatSuffix;
+            });
+
+            stockChart.refresh();
+        }
+
+        var cashFlow = $("#cashFlow").data("kendoChart");
+        if (cashFlow) {
+            const formatSuffix = " " + currentCurrency;
+
+            cashFlow.options.series.forEach(series => {
+                series.tooltip = {
+                    visible: true,
+                    template: "#= convertCurrency(value, '" + currentCurrency + "') #" + formatSuffix
+                };
+            });
+
+            cashFlow.options.valueAxis.labels = {
+                template: "#= abbreviateCurrency(value, '" + currentCurrency + "') #"
+            };
+
+            cashFlow.refresh();
+        }
+    }
+
+    function abbreviateCurrency(amount, currency) {
+        let rate = 1;
+        if (currency === "EUR") rate = 0.9;
+
+        amount = amount * rate;
+
+        if (amount >= 1_000_000) {
+            return (amount / 1_000_000).toFixed(1) + "M " + currency;
+        } 
+        else if (amount >= 1_000) {
+            return (amount / 1_000).toFixed(0) + "k " + currency;
+        }
+
+        return amount.toFixed(2) + " " + currency;
+    }
+
+
+
+    function onViewSelected(e) {
+        const viewName = this.dataItem(e.item.index());
+
+        switch (viewName) {
+            case "Home":
+                window.location.href = '@Url.Action("Home", "Home")';
+                break;
+            case "Transactions":
+                window.location.href = '@Url.Action("Transactions", "Home")';
+                break;
+            case "Investments":
+                window.location.href = '@Url.Action("Investments", "Home")';
+                break;
+            case "Analytics":
+                window.location.href = '@Url.Action("Analytics", "Home")';
+                break;
+            case "AI Assistant":
+                window.location.href = '@Url.Action("AiAssistant", "Home")';
+                break;
+            case "Settings":
+                window.location.href = '@Url.Action("Settings", "Home")';
+                break;
+        }
+    }
+
+    function openAiAssistant() {
+        window.location.href = '@Url.Action("AiAssistant", "Home")';
+    }
+</script>

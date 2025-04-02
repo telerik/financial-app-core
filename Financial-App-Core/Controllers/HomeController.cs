@@ -35,6 +35,11 @@ namespace Financial_App_Core.Controllers
             return View();
         }
 
+        public IActionResult AiAssistant()
+        {
+            return View();
+        }
+
         public IActionResult Settings()
         {
             return View();

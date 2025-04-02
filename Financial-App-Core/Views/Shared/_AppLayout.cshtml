@@ -8,11 +8,11 @@
     .TemplateId("drawerTemplate")
     .Mode("push")
     .Position("left")
-    .Width(238)
+    .Width(250)
     .Mini(true)
     .Expanded(false)
     .AutoCollapse(false)
-    .SwipeToOpen(true)
+    .SwipeToOpen(false)
     .Navigatable(true)
     .Events(ev => ev.ItemClick("onItemClick"))
     .Content(@<text>
@@ -30,6 +30,7 @@
         <li><a class="k-link drawer-item" href="@Url.Action("Transactions", "Home")" data-role='drawer-item' id="transactionsItem"><span id="transactions"></span>Transactions</a></li>
         <li><a class="k-link drawer-item" href="@Url.Action("Investments", "Home")" data-role='drawer-item' id="investmentsItem"><span id="investments"></span>Investments</a></li>
         <li><a class="k-link drawer-item" href="@Url.Action("Analytics", "Home")" data-role='drawer-item' id="analyticsItem"><span id="analytics"></span>Analytics</a></li>
+        <li><a class="k-link drawer-item" href="@Url.Action("AiAssistant", "Home")" data-role='drawer-item' id="aiassistantItem"><span id="aiassistant"></span>AI Assistant</a></li>
         <li data-role='drawer-separator'></li>
         <li><a class="k-link drawer-item" href="@Url.Action("Settings", "Home")" data-role='drawer-item' id="settingsItem"><span id="settings"></span>Settings</a></li>
     </ul>
@@ -44,6 +45,7 @@
         kendo.ui.icon($("#transactions"), { icon: 'arrows-swap' });
         kendo.ui.icon($("#investments"), { icon: 'dollar' });
         kendo.ui.icon($("#analytics"), { icon: 'chart-column-stacked' });
+        kendo.ui.icon($("#aiassistant"), { icon: 'sparkles' });
         kendo.ui.icon($("#settings"), { icon: 'gear' });
 
         highlightActiveMenu();
@@ -51,6 +53,7 @@
         $(window).resize(resizeWidgets);
 
         var drawerInstance = $("#drawer").data("kendoDrawer");
+
         if (isDrawerVisible) {
             drawerInstance.show();
             $(".k-drawer-content").addClass("overlay-active");
@@ -104,7 +107,6 @@
     }
 
     function resizeWidgets() {
-        $(".k-chart").each((idx, elem) => $(elem).getKendoChart().resize(true));
 
         $("#budgetGauge > div").css("width", "100%");
 
@@ -113,8 +115,6 @@
         if (gauge) {
             gauge.redraw();
         }
-
-        console.log($(window))
         
     }
 </script>

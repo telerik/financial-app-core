@@ -10,6 +10,10 @@
     opacity: 0.2;
 }
 
+.k-drawer-item{
+    white-space: nowrap;
+}
+
 .k-drawer-item.k-selected {
     background-color: #9FA8DA;
     color: black;
@@ -130,10 +134,11 @@
     justify-content: center;
 }
 
-.k-input-solid {
+.k-input-solid:has(> #search) {
     border-bottom-right-radius: 6px !important;
     border-bottom-left-radius: 6px !important;
 }
+
 
 .k-picker-solid {
     border-bottom-right-radius: 6px !important;
@@ -153,4 +158,25 @@
 
 .progressBarItem {
     padding-top: 15px;
+}
+
+#transactionHash, #fromHash, #toHash{
+    color: #8CA5DA;
+}
+
+.legend-toggle.inactive {
+    opacity: 0.4;
+    cursor: pointer;
+}
+
+.legend-toggle {
+    cursor: pointer;
+}
+
+.legend-line {
+    display: inline-block;
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background-color: currentColor;
 }

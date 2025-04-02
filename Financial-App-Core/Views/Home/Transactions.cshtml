@@ -5,7 +5,7 @@
 
 @Html.Partial("_DrawerHeader")
 
-<h1 class="overview k-px-15 k-m-0">Translactions</h1>
+<h1 class="k-px-15 k-m-0">Transactions</h1>
 <div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-15">
     <div class="k-col-span-6 k-col-span-md-4">
         <div class="listview-card k-p-4">
@@ -17,34 +17,36 @@
                 {
                     columns.Select().HtmlAttributes(new { @class = "selectColumn" }).HeaderHtmlAttributes(new { @class = "selectColumn" }).Width(50);
                     columns.Bound(t => t.Date).Title("Date").Format("{0:MM/dd/yy}").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
-                    columns.Bound(t => t.Amount).Title("Amount").Format("{0:n2}").ClientTemplate("<span class='amountElem'>#=Amount# BGN</span>").ColumnMenu(false).HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: right; min-width: 80px;" });
+                    columns.Bound(t => t.Amount).Title("Amount").Format("{0:n2}")
+                    .ClientTemplate("<span class='amountElem currency-value' data-amount='#=Amount#'>#=kendo.toString(Amount, 'n2')# USD</span>")
+                    .ColumnMenu(false)
+                    .HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" })
+                    .HtmlAttributes(new { style = "text-align: right; min-width: 80px;" });
                     columns.Bound(t => t.Merchant).Title("Merchant").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
                     columns.Bound(t => t.Status).Title("Status").ClientTemplate("<span class='badgeTemplate'></span>").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center" }).HtmlAttributes(new { style = "text-align: center" });
                 })
                 .ColumnMenu(c => c.Enabled(true))
-                .Pageable(p => p.PageSizes(new[] { 7, 10, 30 }))
+                .Pageable(p => p.PageSizes(new[] { 7, 10, 30 }).PreviousNext(true).Responsive(true))
                 .Groupable(g => g.Messages(m => m.Empty("Drag a column header here to group by it")))
                 .Mobile(MobileMode.Phone)
                 .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetTransactions", "Grid")).PageSize(11))
                 .Events(e => e.DataBound("onDataBound"))
-            )
+                )
         </div>
     </div>
     <div class="k-col-span-6 k-col-span-md-2">
-        <div class="listview-card k-p-2">
+        <div class="listview-card k-p-4 k-gap-6 k-d-flex k-flex-col">
             <h4>Transaction Details</h4>
-
-            <div>
+            <div class="k-d-flex k-flex-col k-gap-4">
                 <div>
                     <span class="k-d-inline-block">Murchant</span>
                     @(Html.Kendo().TextBox()
                         .Name("murchant")
+                        .Rounded(Rounded.None)
                         .Value("Starbucks")
-                    )
+                        )
                 </div>
-            </div>
-            <div>
-                <div class="k-d-grid">
+                <div class="k-d-flex k-flex-col k-gap-3">
                     <span>Order Status</span>
                     @(Html.Kendo().Badge()
                         .Name("orderBadge")
@@ -54,19 +56,15 @@
                         .Rounded(Rounded.Large)
                         .FillMode(BadgeFill.Solid)
                         .HtmlAttributes(new { style = "width: 20%; color: white;" })
-                    )
+                        )
                 </div>
-            </div>
-            <div>
                 <div class="k-d-grid">
                     <span class="k-d-inline-block">Time</span>
                     @(Html.Kendo().TextBox()
                         .Name("time")
                         .Value("09:10 AM January 1,2025")
-                    )
+                        )
                 </div>
-            </div>
-            <div>
                 <div class="k-d-grid">
                     <span class="k-d-inline-block">Customer</span>
                     @(Html.Kendo().TextBox()
@@ -74,8 +72,6 @@
                         .Value("Maria Johnson")
                         )
                 </div>
-            </div>
-            <div>
                 <div class="k-d-grid">
                     <span class="k-d-inline-block">Email</span>
                     @(Html.Kendo().TextBox()
@@ -83,14 +79,35 @@
                         .Value("mariajohnson@email.com")
                         )
                 </div>
-            </div>
-            <div>
                 <div class="k-d-grid">
                     <span class="k-d-inline-block">Payment Method</span>
-
+                    <img src="~/images/visa-svgrepo-com.svg" alt="Visa" style="width:40px; height:auto;" />
+                </div>
+                <div class="k-d-grid" style="margin-top: 1rem;">
+                    <span class="k-d-inline-block">Transaction Hash</span>
+                    @(Html.Kendo().TextBox()
+                        .Name("transactionHash")
+                        .Value("0xc30895ce0616c2eb832a67dbba")
+                        .Enable(false)
+                        )
+                </div>
+                <div class="k-d-grid" style="margin-top: 1rem;">
+                    <span class="k-d-inline-block">From</span>
+                    @(Html.Kendo().TextBox()
+                        .Name("fromHash")
+                        .Value("0xc30895ce0616c2eb832a67dbba")
+                        .Enable(false)
+                        )
+                </div>
+                <div class="k-d-grid" style="margin-top: 1rem;">
+                    <span class="k-d-inline-block">To</span>
+                    @(Html.Kendo().TextBox()
+                        .Name("toHash")
+                        .Value("0xc30895ce0616c2eb832a67dbba")
+                        .Enable(false)
+                        )
                 </div>
             </div>
-           
         </div>
     </div>
 </div>
