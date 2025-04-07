@@ -107,14 +107,27 @@
     }
 
     function resizeWidgets() {
-
-        $("#budgetGauge > div").css("width", "100%");
-
         var gauge = $("#budgetGauge").data("kendoArcGauge");
-
         if (gauge) {
+            $("#budgetGauge > div").css("width", "100%");
             gauge.redraw();
         }
-        
+
+        var pieChart = $("#chart").data("kendoChart");
+        if (pieChart) {
+            var isSmall = window.innerWidth < 768;
+
+            pieChart.setOptions({
+                legend: {
+                    position: isSmall ? "bottom" : "right",
+                    orientation: isSmall ? "horizontal" : "vertical",
+                    width: isSmall ? 360 : null,
+                    labels: {
+                        padding: 5
+                    }
+                }
+            });
+        }
     }
+
 </script>

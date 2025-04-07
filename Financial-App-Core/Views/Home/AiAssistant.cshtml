@@ -1,10 +1,127 @@
 ﻿@using Financial_App_Core.Models
 @{
-    ViewData["Title"] = "Overview";
     Layout = "~/Views/Shared/_AppLayout.cshtml";
 }
 
 @Html.Partial("_DrawerHeader")
 
-<h1 class="overview k-px-15 k-m-0">AI Assistant</h1>
+<h1 class="k-px-md-15 k-p-5 k-m-0">AI Assistant</h1>
 
+<div class="k-d-grid k-gap-4 k-p-6 k-grid-cols-2 k-p-5">
+    <div class="listview-card k-p-4 k-d-flex k-flex-col k-gap-2 k-col-span-2 k-col-span-md-1">
+        <h3 class="k-mb-3 k-text-lg k-font-bold">Related Topics</h3>
+
+        @(Html.Kendo().ExpansionPanel()
+            .Name("saving")
+            .Title("How do I start saving money?")
+            .Expanded(true)
+            .Content("Begin by setting a clear savings goal and tracking your expenses. Use the app to create a budget, automate transfers to a savings account, and cut unnecessary spending. Even small, consistent deposits can add up over time.")
+        )
+        @(Html.Kendo().ExpansionPanel()
+            .Name("investing")
+            .Title("What’s the best way to start investing with little money?")
+            .Expanded(true)
+            .Content("Start with low-cost options like ETFs or fractional shares. Many apps allow you to invest with as little as $5. Consider automating small, regular contributions to grow your portfolio over time.")
+        )
+        @(Html.Kendo().ExpansionPanel()
+            .Name("lifestyle")
+            .Title("How can I save money without changing my lifestyle?")
+            .Content("Look for budget-friendly alternatives to your regular purchases and take advantage of discounts and rewards programs.")
+        )
+        @(Html.Kendo().ExpansionPanel()
+            .Name("emergency")
+            .Title("What is the best way to build an emergency fund?")
+            .Content("Set aside a fixed amount each month into a high-yield savings account until you reach 3–6 months’ worth of expenses.")
+        )
+    </div>
+
+    <div class="listview-card k-p-4 k-d-flex k-flex-col k-gap-4 k-col-span-2 k-col-span-md-1">
+        <h3 class="k-text-lg k-font-bold">Chat with Roby</h3>
+        @(Html.Kendo().AIPrompt()
+            .Name("aiprompt")
+            .ActiveView(0)
+            .Messages(m => m.PromptPlaceholder("How to..."))
+            .Events(ev => ev.CommandExecute("onCommandExecute").PromptRequest("onPromptRequest"))
+            .Views(views =>
+            {
+                views.Add().Type(ViewType.Prompt)
+                    .PromptSuggestions(new[] {
+                        "Out of office (contact colleague)",
+                        "Out of office (contact me)",
+                        "LinkedIn post for work/life balance and well-being",
+                        "LinkedIn post for work/life balance and mental health"
+                    });
+                views.Add().Type(ViewType.Output);
+                views.Add().Type(ViewType.Commands)
+                    .PromptCommands(commands =>
+                    {
+                        commands.Add().Id("1").Text("Change Formality").Icon("brush")
+                            .Items(i =>
+                            {
+                                i.Add().Id("1_1").Text("Casual");
+                                i.Add().Id("1_2").Text("Neutral");
+                                i.Add().Id("1_3").Text("Formal");
+                            });
+                        commands.Add().Id("2").Text("Translate").Icon("edit-tools")
+                            .Items(i =>
+                            {
+                                i.Add().Id("2_1").Text("German");
+                                i.Add().Id("2_2").Text("Spanish");
+                                i.Add().Id("2_3").Text("English");
+                            });
+                        commands.Add().Id("3").Text("Simplify").Icon("min-width");
+                        commands.Add().Id("4").Text("Extend").Icon("arrows-left-right");
+                    });
+            })
+        )
+    </div>
+</div>
+
+<script src="~/js/prompt-data.js"></script>
+
+<script>
+    function onPromptRequest(ev) {
+        const response = promptData.find(p => p.suggestion === ev.prompt);
+        const output = {
+            id: kendo.guid(),
+            prompt: ev.prompt,
+            output: response?.english || defaultResponse,
+            isRetry: ev.isRetry
+        };
+        this.addPromptOutput(output);
+        this.activeView(1);
+    }
+
+    function onCommandExecute(ev) {
+        if (!this.promptOutputs.length) return;
+        const lastPrompt = this.promptOutputs[0].prompt;
+        const response = promptData.find(p => p.suggestion === lastPrompt);
+        const commandKey = ev.item.text.toLowerCase();
+        const result = {
+            id: kendo.guid(),
+            prompt: lastPrompt,
+            output: response?.[commandKey] || defaultResponse,
+            isRetry: ev.isRetry
+        };
+        this.addPromptOutput(result);
+        this.activeView(1);
+    }
+
+    function onToolbarButtonClick(e) {
+        const popup = $("#aiPopup").data("kendoPopup");
+        const fab = $("#fab").data("kendoFloatingActionButton");
+        if (popup) popup.close();
+        if (fab) fab.icon("sparkles");
+    }
+
+    function onClick(e) {
+        const popup = $("#aiPopup").data("kendoPopup");
+        if ($("#aiPopup").is(":visible")) {
+            if (popup) popup.close();
+            e.sender.icon("sparkles");
+        } else {
+            if (popup) popup.open();
+            e.sender.icon("x");
+        }
+    }
+</script>

@@ -1,7 +1,9 @@
-﻿body {
+﻿@import 'https://fonts.googleapis.com/css2?family=Outfit:wght@200..900&display=swap';
+
+body {
     background-color: #121212;
     color: #ffffff;
-    font-family: 'Inter', sans-serif;
+    font-family: Roboto, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -17,6 +19,11 @@
 .k-drawer-item.k-selected {
     background-color: #9FA8DA;
     color: black;
+}
+
+#avatar-image-second{
+    height: 42px;
+    width: 42px;
 }
 
 .listview-card {
@@ -180,3 +187,23 @@
     border-radius: 2px;
     background-color: currentColor;
 }
+
+.k-expander-title{
+    color: #9FA8DA;
+}
+
+.k-prompt-content{
+    height: 444px !important;
+}
+
+#aiprompt .k-prompt-content {
+    height: 300px; 
+    overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+    .top-bar {
+        align-items: center;
+    }
+}
+

@@ -1,4 +1,5 @@
-Finance App sample application powered by Progress® Telerik® UI for ASP.NET Core  
+## Finance App sample application powered by Progress® Telerik® UI for ASP.NET Core
+
 Finance App is a sample application built with Progress® Telerik® UI for ASP.NET Core — a professional set of UI components designed to help you deliver modern, feature-rich, and responsive web applications quickly and efficiently.
 
 The app demonstrates how easy it is to create a dynamic, data-driven financial dashboard using Telerik’s built-in components like TileLayout, Grid, Gauge, DropDownList, and Chart. It also shows how to implement virtualized filtering, clean layout strategies, and SQLite data integration with minimal setup.
@@ -22,11 +23,7 @@ Public URL - https://github.com/telerik/financial-app-core
 
 **1. Configure Telerik NuGet Feed**
 
-Before restoring NuGet packages, add Telerik’s NuGet feed using the command line:
-
-dotnet nuget add source https://nuget.telerik.com/v3/index.json --name telerik.com --username YOUR_USERNAME --password YOUR_PASSWORD
-
-Alternatively, configure the feed in Visual Studio:
+Before restoring NuGet packages, configure the feed in Visual Studio:
 
 - Go to `Tools > NuGet Package Manager > Package Sources`
 - Add a new source with the Telerik URL and your credentials

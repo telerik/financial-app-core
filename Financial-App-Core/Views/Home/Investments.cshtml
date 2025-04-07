@@ -4,15 +4,16 @@
 
 @Html.Partial("_DrawerHeader")
 
-<h1 class="k-px-15 k-m-0">Investments</h1>
-<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-15">
-    <div class="k-col-span-6 k-col-span-md-2">
+<h1 class="k-px-md-15 k-p-5 k-m-0">Investments</h1>
+
+<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-12 k-gap-5 k-p-md-5 k-px-md-15 k-p-5">
+    <div class="k-col-span-12 k-col-span-md-5">
         <div class="listview-card k-p-4">
             <h4>Total Investments</h4>
             <span>Placeholder</span>
             @(Html.Kendo().Chart()
                 .Name("chart")
-                .ChartArea(chart => chart.Background("transparent").Width(330).Height(310))
+                .ChartArea(chart => chart.Background("transparent"))
                 .Series(series =>
                 {
                     series.Pie(new dynamic[] {
@@ -31,32 +32,33 @@
                 .Legend(l => l.Visible(true)
                     .Orientation(ChartLegendOrientation.Vertical)
                     .Position(ChartLegendPosition.Right)
-                    .Item(i => i.Markers(m => m.Type(ChartMarkerShape.Triangle))))
+                    .Item(i => i.Markers(m => m.Type(ChartMarkerShape.Triangle)))
+                )
             )
         </div>
     </div>
 
-    <div class="k-col-span-6 k-col-span-md-4 listview-card k-p-4">
+    <div class="k-col-span-12 k-col-span-md-7 listview-card k-p-4">
         <h4>Today's top 5 Movers</h4>
 
         <div class="k-d-grid k-grid-cols-4 k-gap-4 k-align-items-center k-py-2 k-box-sizing-border">
             <div class="k-d-flex k-gap-2">
                 <img src="~/images/BITCOIN.svg" alt="BTC" style="width: 40px; height: auto;" />
                 <div class="k-d-flex k-flex-col k-justify-content-end">
-                    <span class="k-text-bold">BTC/BIRD</span>
+                    <span class="k-font-weight-bold">BTC/BIRD</span>
                     <span class="k-text-muted">Bitcoin</span>
                 </div>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="145.25">$145.25</span>
-                <span class="negative k-font-size-sm">▼ <span class="currency-value" data-amount="0.4">$0.4</span> (47%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="145.25"></span>
+                <span class="negative k-font-size-sm">▼ <span class="currency-symbol-value" data-amount="0.4"></span> (47%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="145.25">$145.25</span>
-                <span class="negative k-font-size-sm">▼ <span class="currency-value" data-amount="0.4">$0.4</span> (47%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="145.25"></span>
+                <span class="negative k-font-size-sm">▼ <span class="currency-symbol-value" data-amount="0.4"></span> (47%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="95887">$95,887.00</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="95887"></span>
             </div>
         </div>
 
@@ -64,62 +66,62 @@
             <div class="k-d-flex k-gap-2">
                 <img src="~/images/ETHERIUM.svg" alt="ETH" style="width: 40px; height: auto;" />
                 <div class="k-d-flex k-flex-col k-justify-content-end">
-                    <span class="k-text-bold">ETH/BIRD</span>
+                    <span class="k-font-weight-bold">ETH/BIRD</span>
                     <span class="k-text-muted">Etherium</span>
                 </div>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="250.23">$250.23</span>
-                <span class="positive k-font-size-sm">▲ <span class="currency-value" data-amount="0.5">$0.5</span> (86%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="250.23"></span>
+                <span class="positive k-font-size-sm">▲ <span class="currency-symbol-value" data-amount="0.5"></span> (86%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="324.77">$324.77</span>
-                <span class="negative k-font-size-sm">▼ <span class="currency-value" data-amount="0.4">$0.4</span> (47%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="324.77"></span>
+                <span class="negative k-font-size-sm">▼ <span class="currency-symbol-value" data-amount="0.4"></span> (47%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="24764.29">$24,764.29</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="24764.29"></span>
             </div>
-        </div> 
+        </div>
 
         <div class="k-d-grid k-grid-cols-4 k-gap-4 k-align-items-center k-py-2 k-box-sizing-border">
             <div class="k-d-flex k-gap-2">
                 <img src="~/images/xrp.svg" alt="XRP" style="width: 40px; height: auto;" />
                 <div class="k-d-flex k-flex-col k-justify-content-end">
-                    <span class="k-text-bold">XRP/BIRD</span>
+                    <span class="k-font-weight-bold">XRP/BIRD</span>
                     <span class="k-text-muted">Ripple</span>
                 </div>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="590.25">$590.25</span>
-                <span class="negative k-font-size-sm">▼ <span class="currency-value" data-amount="0.4">$0.4</span> (47%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="590.25"></span>
+                <span class="negative k-font-size-sm">▼ <span class="currency-symbol-value" data-amount="0.4"></span> (47%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="360.21">$360.21</span>
-                <span class="positive k-font-size-sm">▲ <span class="currency-value" data-amount="0.5">$0.5</span> (86%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="360.21"></span>
+                <span class="positive k-font-size-sm">▲ <span class="currency-symbol-value" data-amount="0.5"></span> (86%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="15007.45">$15,007.45</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="15007.45"></span>
             </div>
-        </div> 
+        </div>
 
         <div class="k-d-grid k-grid-cols-4 k-gap-4 k-align-items-center k-py-2 k-box-sizing-border">
             <div class="k-d-flex k-gap-2">
                 <img src="~/images/TETHERUS.svg" alt="TTH" style="width: 40px; height: auto;" />
                 <div class="k-d-flex k-flex-col k-justify-content-end">
-                    <span class="k-text-bold">TTH/BIRD</span>
+                    <span class="k-text-bold k-font-weight-bold">TTH/BIRD</span>
                     <span class="k-text-muted">Theter</span>
                 </div>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="190.45">$190.45</span>
-                <span class="positive k-font-size-sm">▲ <span class="currency-value" data-amount="0.5">$0.5</span> (86%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="190.45"></span>
+                <span class="positive k-font-size-sm">▲ <span class="currency-symbol-value" data-amount="0.5"></span> (86%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="365.32">$365.32</span>
-                <span class="negative k-font-size-sm">▼ <span class="currency-value" data-amount="0.4">$0.4</span> (47%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="365.32"></span>
+                <span class="negative k-font-size-sm">▼ <span class="currency-symbol-value" data-amount="0.4"></span> (47%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="76123.15">$76,123.15</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="76123.15"></span>
             </div>
         </div>
 
@@ -127,36 +129,46 @@
             <div class="k-d-flex k-gap-2">
                 <img src="~/images/INCH.svg" alt="UNI" style="width: 40px; height: auto;" />
                 <div class="k-d-flex k-flex-col k-justify-content-end">
-                    <span class="k-text-bold">UNI/BIRD</span>
+                    <span class="k-text-bold k-font-weight-bold">UNI/BIRD</span>
                     <span class="k-text-muted">Unicorn</span>
                 </div>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="750.54">$750.54</span>
-                <span class="positive k-font-size-sm">▲ <span class="currency-value" data-amount="0.5">$0.5</span> (86%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="750.54"></span>
+                <span class="positive k-font-size-sm">▲ <span class="currency-symbol-value" data-amount="0.5"></span> (86%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="421.89">$421.89</span>
-                <span class="positive k-font-size-sm">▲ <span class="currency-value" data-amount="0.5">$0.5</span> (86%)</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="421.89"></span>
+                <span class="positive k-font-size-sm">▲ <span class="currency-symbol-value" data-amount="0.5"></span> (86%)</span>
             </div>
             <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
-                <span class="currency-value" data-amount="30456.30">$30,456.30</span>
+                <span class="currency-symbol-value k-font-weight-bold" data-amount="30456.30"></span>
             </div>
         </div>
     </div>
 
-    <div class="k-col-span-6 k-col-span-md-6">
+    <div class="k-col-span-12 k-col-span-md-12">
         <div class="listview-card k-p-4">
+
+            <div class="k-d-flex k-gap-12 k-pb-2 k-pt-1 k-ps-3">
+                <span style="border-bottom: 2px solid #aeb8ff;">SOLAR FLUX</span>
+                <span>QUANTUM</span>
+                <span>NEOPHARM</span>
+                <span>SOLARIS</span>
+                <span>GLOBEFIN BANK</span>
+            </div>
+
+
             @(Html.Kendo().StockChart<Financial_App_Core.Models.StockDataPoint>()
                 .Name("stockChart")
-                .Title("The Boeing Company (NYSE:BA)")
                 .DataSource(ds => ds.Read(read => read.Action("GetStockData", "Chart")))
                 .DateField("Date")
                 .Panes(panes =>
                 {
-                    panes.Add().Title("Value");
-                    panes.Add("volumePane").Title("Volume").Height(150);
+                    panes.Add().Height(170).Title(t => t.Text("Value").Position("center"));
+                    panes.Add("volumePane").Title(t => t.Text("Volume").Position("center"));
                 })
+                .ChartArea(c => c.Background("transparent"))
                 .CategoryAxis(axis => axis.Pane("volumePane"))
                 .ValueAxis(axis => axis.Numeric().Line(line => line.Visible(false)))
                 .ValueAxis(axis => axis.Numeric("volumeAxis").Pane("volumePane").Visible(false))
@@ -165,7 +177,7 @@
                     series.Candlestick(s => s.Open, s => s.High, s => s.Low, s => s.Close).Color("#008478");
                     series.Column(s => s.Volume).Axis("volumeAxis").Tooltip(t => t.Visible(true)).Color("#008478");
                 })
-                .Navigator(nav => nav.Series(series => series.Area(s => s.Close).Color("#008478")).Select(DateTime.Parse("2018/02/05"), DateTime.Parse("2020/10/07")))
+                .Navigator(nav => nav.Series(series => series.Area(s => s.Close).Color("#008478")).Select(DateTime.Parse("2018/02/05"), DateTime.Parse("2020/10/07")).CategoryAxis(c => c.Labels(l => l.Rotation(0))))
             )
         </div>
     </div>

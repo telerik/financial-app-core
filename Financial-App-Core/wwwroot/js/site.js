@@ -45,3 +45,4 @@ $(document).on("click", ".legend-toggle", function () {
         chart.refresh();
     }
 });
+

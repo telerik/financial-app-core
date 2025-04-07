@@ -5,9 +5,9 @@
 
 @Html.Partial("_DrawerHeader")
 
-<h1 class="k-px-15 k-m-0">Analytics</h1>
+<h1 class="k-px-md-15 k-p-5 k-m-0">Analytics</h1>
 
-<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-15">
+<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-md-5 k-px-md-15 k-p-5">
     <div class="k-col-span-6 k-col-span-md-6">
         <div class="listview-card k-p-4">
 
@@ -62,7 +62,7 @@
                 })
                 .CategoryAxis(axis => axis
                     .Labels(labels => labels
-                        .Rotation(90)
+                        .Rotation(270)
                         .Template("#= value.substring(0,3) #")
                     )
                     .MajorGridLines(lines => lines.Visible(true))
@@ -82,16 +82,16 @@
             .ToolBar(t => { t.Excel(); t.Pdf(); })
             .Columns(columns =>
             {
-                columns.Select().HtmlAttributes(new { @class = "selectColumn" }).HeaderHtmlAttributes(new { @class = "selectColumn" });
+                columns.Select().HtmlAttributes(new { @class = "selectColumn" }).HeaderHtmlAttributes(new { @class = "selectColumn" }).Width(50);
                 columns.Bound(t => t.Date).Title("Date").Format("{0:MM/dd/yy}").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
                 columns.Bound(t => t.Amount).Title("Amount").Format("{0:n2}")
                     .ClientTemplate("<span class='currency-value' data-amount='#=Amount#'>#=kendo.toString(Amount, 'n2')# USD</span>")
                     .ColumnMenu(false)
                     .HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" })
-                    .HtmlAttributes(new { style = "text-align: right; min-width: 80px;" });
-                columns.Bound(t => t.Merchant).Title("Merchant").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
-                columns.Bound(t => t.Category).Title("Category").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
-                columns.Bound(t => t.PayMethod).Title("Pay Method").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    .HtmlAttributes(new { style = "text-align: right; min-width: 95px;" });
+                columns.Bound(t => t.Merchant).Title("Merchant").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
+                columns.Bound(t => t.Category).Title("Category").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
+                columns.Bound(t => t.PayMethod).Title("Pay Method").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
                 columns.Bound(t => t.Status).Title("Status").ClientTemplate("<span class='badgeTemplate'></span>").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center" }).HtmlAttributes(new { style = "text-align: center" });
             })
             .ColumnMenu(c => c.Enabled(true))

@@ -1,8 +1,7 @@
-﻿<div class="top-container k-px-15">
-        <div class="top-bar k-d-flex k-flex-col k-flex-sm-row k-justify-content-between k-align-items-center k-gap-4">
-            <div class="profile-section k-d-flex k-flex-1 k-align-items-center k-gap-4">
-                <div class="k-d-flex k-justify-content-start k-gap-4">
-                    <div id="avatar-text" class="avatar-margin-right-5 k-avatar k-avatar-solid-primary k-avatar-solid k-avatar-md k-rounded-full">
+﻿<div class="k-px-md-15 k-px-5 k-pt-6">
+        <div class="top-bar k-d-flex k-flex-col k-flex-md-row k-justify-content-between k-align-items-md-center k-gap-4">
+            <div class="profile-section k-d-flex k-flex-1 k-align-items-center k-gap-4 k-w-full">
+                <div class="k-d-flex k-justify-content-center k-align-items-start k-gap-4">
                         <span>
                             @(Html.Kendo().Avatar()
                                 .Name("avatar-image-second")
@@ -11,7 +10,6 @@
                                 .Image("/images/Maria.jpg") 
                             )
                         </span>
-                     </div>
                     <div class="welcome-text k-d-flex k-flex-col k-gap-1">
                         <h4 class="k-m-0 k-font-size-xl">Hi, Maria!</h4>
                         <span>Welcome back</span>
@@ -19,11 +17,12 @@
                 </div>
                 <div class="k-flex-1 k-d-flex k-justify-content-center">
                 @(Html.Kendo().AutoComplete()
-                    .Name("searchViews")
-                    .Placeholder("Search")
+                    .Name("search")
+                    .Placeholder("Browse")
+                    .PrefixOptions(p => p.Icon("search"))
                     .Filter("startswith")
                     .MinLength(1)
-                    .HtmlAttributes(new { style = "width: 60%; border: none;" })
+                    .HtmlAttributes(new { style = "border: none;" })
                     .BindTo(new string[] {
                          "Home",
                          "Transactions",
@@ -33,7 +32,7 @@
                          "Settings"
                     })
                     .Events(e => e.Select("onViewSelected"))
-                    )
+                )
 
                 </div>
             </div>
@@ -42,6 +41,7 @@
                         .Name("aiAssistant")
                         .Content("AI ASSISTANT")
                         .ThemeColor(ThemeColor.Primary)
+                        .Rounded(Rounded.Large)
                         .Events(e => e.Click("openAiAssistant"))
                     )
             <div>
@@ -70,7 +70,9 @@
         updateCurrencyValues();
         updateGridCurrency();
         updateChartCurrency();
+        updateTopFiveMovers();
     }
+
 
     $(document).ready(function () {
             var ddl = $("#currency").data("kendoDropDownList");
@@ -83,6 +85,7 @@
             setTimeout(function () {
                 updateGridCurrency();
                 updateChartCurrency();
+                updateTopFiveMovers(); 
             }, 200);
     });
 
@@ -146,9 +149,12 @@
             });
 
             stockChart.options.valueAxis.forEach(axis => {
-                axis.labels = axis.labels || {};
-                axis.labels.template = "#= convertCurrency(value, '" + currentCurrency + "') #" + formatSuffix;
+                if (axis.name !== "volumeAxis") {
+                    axis.labels = axis.labels || {};
+                    axis.labels.template = "#= getCurrencySymbol(currentCurrency) # #= convertCurrency(value, currentCurrency) #";
+                }
             });
+
 
             stockChart.refresh();
         }
@@ -170,6 +176,22 @@
 
             cashFlow.refresh();
         }
+    }
+
+    function getCurrencySymbol(curr) {
+        return curr === "EUR" ? "€" : "$";
+    }
+
+
+    function updateTopFiveMovers() {
+        $(".currency-symbol-value").each(function() {
+            var amount = parseFloat($(this).data("amount"));
+            if (!isNaN(amount)) {
+                var converted = convertCurrency(amount, currentCurrency);
+                var symbol = currentCurrency === "EUR" ? "€" : "$";
+                $(this).text(symbol + converted);
+            }
+        });
     }
 
     function abbreviateCurrency(amount, currency) {
