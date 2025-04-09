@@ -128,6 +128,11 @@
                 }
             });
         }
+
+        var stockChart = $("#stockChart").data("kendoStockChart");
+        if (stockChart) { 
+            stockChart.redraw();
+        }
     }
 
 </script>

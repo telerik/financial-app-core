@@ -7,14 +7,15 @@
 
 <h1 class="k-px-md-15 k-p-5 k-m-0">Analytics</h1>
 
-<div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-md-5 k-px-md-15 k-p-5">
-    <div class="k-col-span-6 k-col-span-md-6">
+<div class="k-d-grid k-grid-cols-6 k-gap-5 k-p-md-5 k-px-md-15 k-p-5">
+    <div class="k-col-span-6">
         <div class="listview-card k-p-4">
 
-            <div class="k-d-flex k-justify-content-between k-align-items-center k-mb-4 k-px-2">
-                <h4 class="k-m-0">Money Cashflow</h4>
-
-                <div class="k-d-flex k-align-items-center k-gap-4">
+            <div class="k-d-grid k-justify-content-between k-align-items-center k-mb-4 k-px-2 k-gap-sm-6 k-grid-cols-md-6 k-grid-cols-sm-3">
+                <div class="k-col-span-2">
+                    <h4 class="k-m-0">Money Cashflow</h4>
+                </div>
+                <div class="k-d-flex k-align-items-center k-col-span-4 k-gap-4">
                     <div id="cashflowLegend" class="k-d-flex k-gap-5 k-align-items-center">
                         <span class="k-legend-item k-d-flex k-align-items-center legend-toggle" data-series="Stocks">
                             <span class="legend-line" style="background-color:#9C27B0;"></span>
@@ -30,18 +31,20 @@
                         </span>
                     </div>
 
-                    @(Html.Kendo().DropDownList()
-                        .Name("cashflowPeriod")
-                        .DataTextField("Text")
-                        .DataValueField("Value")
-                        .BindTo(new[] {
-                             new { Text = "Year", Value = "Year" },
-                             new { Text = "Quarter", Value = "Quarter" },
-                             new { Text = "Month", Value = "Month" }
-                        })
-                        .Value("Year")
-                        .HtmlAttributes(new { style = "width: 120px;" })
-                    )
+                    <div>
+                        @(Html.Kendo().DropDownList()
+                            .Name("cashflowPeriod")
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .BindTo(new[] {
+                                 new { Text = "Year", Value = "Year" },
+                                 new { Text = "Quarter", Value = "Quarter" },
+                                 new { Text = "Month", Value = "Month" }
+                            })
+                            .Value("Year")
+                            .Size(ComponentSize.Small)
+                        )
+                    </div>
                 </div>
             </div>
 
@@ -76,30 +79,32 @@
     </div>
 
     <div class="k-col-span-6 k-col-span-md-6">
-        <h4>Transactions</h4>
-        @(Html.Kendo().Grid<TransactionModel>()
-            .Name("transactionsGrid")
-            .ToolBar(t => { t.Excel(); t.Pdf(); })
-            .Columns(columns =>
-            {
-                columns.Select().HtmlAttributes(new { @class = "selectColumn" }).HeaderHtmlAttributes(new { @class = "selectColumn" }).Width(50);
-                columns.Bound(t => t.Date).Title("Date").Format("{0:MM/dd/yy}").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
-                columns.Bound(t => t.Amount).Title("Amount").Format("{0:n2}")
-                    .ClientTemplate("<span class='currency-value' data-amount='#=Amount#'>#=kendo.toString(Amount, 'n2')# USD</span>")
-                    .ColumnMenu(false)
-                    .HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" })
-                    .HtmlAttributes(new { style = "text-align: right; min-width: 95px;" });
-                columns.Bound(t => t.Merchant).Title("Merchant").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
-                columns.Bound(t => t.Category).Title("Category").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
-                columns.Bound(t => t.PayMethod).Title("Pay Method").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
-                columns.Bound(t => t.Status).Title("Status").ClientTemplate("<span class='badgeTemplate'></span>").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center" }).HtmlAttributes(new { style = "text-align: center" });
-            })
-            .ColumnMenu(c => c.Enabled(true))
-            .Pageable(p => p.PageSizes(new[] { 7, 10, 30 }).PreviousNext(true).Responsive(true))
-            .Groupable(g => g.Messages(m => m.Empty("Drag a column header here to group by it")))
-            .Mobile(MobileMode.Phone)
-            .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetTransactions", "Grid")).PageSize(7))
-            .Events(e => e.DataBound("onDataBound"))
-        )
+        <div class="listview-card k-p-4">
+            <h4>Transactions</h4>
+            @(Html.Kendo().Grid<TransactionModel>()
+                .Name("transactionsGrid")
+                .ToolBar(t => { t.Excel(); t.Pdf(); })
+                .Columns(columns =>
+                {
+                    columns.Select().HtmlAttributes(new { @class = "selectColumn" }).HeaderHtmlAttributes(new { @class = "selectColumn" }).Width(50);
+                    columns.Bound(t => t.Date).Title("Date").Format("{0:MM/dd/yy}").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    columns.Bound(t => t.Amount).Title("Amount").Format("{0:n2}")
+                        .ClientTemplate("<span class='currency-value' data-amount='#=Amount#'>#=kendo.toString(Amount, 'n2')# USD</span>")
+                        .ColumnMenu(false)
+                        .HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" })
+                        .HtmlAttributes(new { style = "text-align: right; min-width: 95px;" });
+                    columns.Bound(t => t.Merchant).Title("Merchant").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
+                    columns.Bound(t => t.Category).Title("Category").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
+                    columns.Bound(t => t.PayMethod).Title("Pay Method").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
+                    columns.Bound(t => t.Status).Title("Status").ClientTemplate("<span class='badgeTemplate'></span>").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center" }).HtmlAttributes(new { style = "text-align: center" });
+                })
+                .ColumnMenu(c => c.Enabled(true))
+                .Pageable(p => p.PageSizes(new[] { 7, 10, 30 }).PreviousNext(true).Responsive(true))
+                .Groupable(g => g.Messages(m => m.Empty("Drag a column header here to group by it")))
+                .Mobile(MobileMode.Phone)
+                .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetTransactions", "Grid")).PageSize(7))
+                .Events(e => e.DataBound("onDataBound"))
+            )
+        </div>
     </div>
 </div>

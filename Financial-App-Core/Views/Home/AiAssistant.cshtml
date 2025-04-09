@@ -7,8 +7,8 @@
 
 <h1 class="k-px-md-15 k-p-5 k-m-0">AI Assistant</h1>
 
-<div class="k-d-grid k-gap-4 k-p-6 k-grid-cols-2 k-p-5">
-    <div class="listview-card k-p-4 k-d-flex k-flex-col k-gap-2 k-col-span-2 k-col-span-md-1">
+<div class="k-d-grid k-gap-4 k-p-6 k-grid-cols-2 k-p-5 k-grid-cols-md-6 k-grid-cols-sm-1">
+    <div class="listview-card k-p-4 k-gap-2 k-col-span-4">
         <h3 class="k-mb-3 k-text-lg k-font-bold">Related Topics</h3>
 
         @(Html.Kendo().ExpansionPanel()
@@ -35,7 +35,7 @@
         )
     </div>
 
-    <div class="listview-card k-p-4 k-d-flex k-flex-col k-gap-4 k-col-span-2 k-col-span-md-1">
+    <div class="listview-card k-p-4 k-gap-4 k-col-span-2">
         <h3 class="k-text-lg k-font-bold">Chat with Roby</h3>
         @(Html.Kendo().AIPrompt()
             .Name("aiprompt")
@@ -52,26 +52,6 @@
                         "LinkedIn post for work/life balance and mental health"
                     });
                 views.Add().Type(ViewType.Output);
-                views.Add().Type(ViewType.Commands)
-                    .PromptCommands(commands =>
-                    {
-                        commands.Add().Id("1").Text("Change Formality").Icon("brush")
-                            .Items(i =>
-                            {
-                                i.Add().Id("1_1").Text("Casual");
-                                i.Add().Id("1_2").Text("Neutral");
-                                i.Add().Id("1_3").Text("Formal");
-                            });
-                        commands.Add().Id("2").Text("Translate").Icon("edit-tools")
-                            .Items(i =>
-                            {
-                                i.Add().Id("2_1").Text("German");
-                                i.Add().Id("2_2").Text("Spanish");
-                                i.Add().Id("2_3").Text("English");
-                            });
-                        commands.Add().Id("3").Text("Simplify").Icon("min-width");
-                        commands.Add().Id("4").Text("Extend").Icon("arrows-left-right");
-                    });
             })
         )
     </div>
