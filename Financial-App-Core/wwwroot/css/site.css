@@ -243,6 +243,10 @@ body {
     color: #9B9B9B;
 }
 
+.k-autocomplete {
+    width: 60%;
+}
+
 
 
 @media (min-width: 768px) {
