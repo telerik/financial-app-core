@@ -150,10 +150,10 @@
                     series.tooltip = {
                         visible: true,
                         template:
-                            "Open: #= convertCurrency(open, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
-                            "High: #= convertCurrency(high, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
-                            "Low: #= convertCurrency(low, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
-                            "Close: #= convertCurrency(close, '" + currentCurrency + "') #" + formatSuffix
+                            "Open: #= convertCurrency(dataItem.Open, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
+                            "High: #= convertCurrency(dataItem.High, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
+                            "Low: #= convertCurrency(dataItem.Low, '" + currentCurrency + "') #" + formatSuffix + "<br/>" +
+                            "Close: #= convertCurrency(dataItem.Close, '" + currentCurrency + "') #" + formatSuffix
                     };
                 }
             });
