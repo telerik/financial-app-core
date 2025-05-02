@@ -1,0 +1,45 @@
+﻿@model MoverPartialModel
+
+@functions {
+    public char CreateIcon(TrendModel quarter)
+    {
+        return quarter.IsNegative ? '▼' : '▲';
+    }
+
+    public string CreateTrendClass(TrendModel quarter) {
+        return quarter.IsNegative ? "negative" : "positive";
+    }
+}
+
+@{
+    var totalEarning = Model.TotalEarnings * 1250;
+}
+
+<div class="k-d-grid k-grid-cols-4 k-gap-4 k-align-items-center k-py-2 k-box-sizing-border">
+    <div class="k-d-flex k-gap-2">
+        <img src="@Model.ImageUrl" alt="@Model.Abbreviation" style="width: 40px; height: auto;" />
+        <div class="k-d-flex k-flex-col k-justify-content-end">
+            <span class="k-text-bold k-font-weight-bold">@Model.Abbreviation/BIRD</span>
+            <span class="k-text-muted">@Model.Name</span>
+        </div>
+    </div>
+    <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
+        <span class="currency-symbol-value k-font-weight-bold" data-amount="@Model.Q1.Earning"></span>
+        <span class="@CreateTrendClass(Model.Q1) k-font-size-sm">
+            @CreateIcon(Model.Q1)
+            <span class="currency-symbol-value" data-amount="@Model.Q1.Difference"></span> 
+            (@Model.Q1.Percent%)
+        </span>
+    </div>
+    <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
+        <span class="currency-symbol-value k-font-weight-bold" data-amount="@Model.Q2.Earning"></span>
+        <span class="@CreateTrendClass(Model.Q2) k-font-size-sm">
+            @CreateIcon(Model.Q2)
+            <span class="currency-symbol-value" data-amount="@Model.Q2.Difference"></span> 
+            (@Model.Q2.Percent%)
+        </span>
+    </div>
+    <div class="k-d-flex k-flex-col k-justify-self-end k-text-right">
+        <span class="currency-symbol-value k-font-weight-bold" data-amount="@totalEarning"></span>
+    </div>
+</div>
