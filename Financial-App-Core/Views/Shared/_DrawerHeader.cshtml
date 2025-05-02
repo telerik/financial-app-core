@@ -36,27 +36,37 @@
 
                 </div>
             </div>
+
             <div class="k-d-flex k-gap-4">
-                    @(Html.Kendo().Button()
+               @(Html.Kendo().SkeletonContainer()
+                .Name("skeleton")
+                .Animation(SkeletonContainerAnimation.Wave)
+                .Template(Html.Kendo().Template()
+                .AddHtml("<div class='k-d-flex k-rounded-lg k-gap-4' data-shape-rectangle>")
+                    .AddComponent(component => component.Button()
                         .Name("aiAssistant")
                         .Content("AI ASSISTANT")
+                        .Icon("sparkles")
                         .ThemeColor(ThemeColor.Primary)
                         .Rounded(Rounded.Large)
                         .Events(e => e.Click("openAiAssistant"))
                     )
-            <div>
-                @(Html.Kendo().DropDownList()
-                    .Name("currency")
-                    .BindTo(new List<string>() {
-                        "USD",
-                        "EUR"
-                    })
-                    .Rounded(Rounded.Large)
-                    .HtmlAttributes(new { style = "background-color: #FFFFFF; color: black;" })
-                    .Events(e => e.Change("onCurrencyChange"))
+                    .AddHtml("</div>")
                 )
-            </div>
-            </div>
+               )
+                <div>
+                    @(Html.Kendo().DropDownList()
+                        .Name("currency")
+                        .BindTo(new List<string>() {
+                            "USD",
+                            "EUR"
+                        })
+                        .Rounded(Rounded.Large)
+                        .HtmlAttributes(new { style = "background-color: #FFFFFF; color: black;" })
+                        .Events(e => e.Change("onCurrencyChange"))
+                    )
+                </div>
+          </div>
         </div>
 </div>
 
