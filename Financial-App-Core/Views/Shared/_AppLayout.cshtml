@@ -1,11 +1,15 @@
-﻿@{
+﻿@using static Financial_App_Core.Seeders.FinancialSeeder;
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     IgnoreBody();
+ 
+    var drawerItemTemplate = await Html.PartialAsync("_DrawerItemPartial", SeedDrawerItems(Url));
 }
 
 @(Html.Kendo().Drawer()
     .Name("drawer")
-    .TemplateId("drawerTemplate")
+    .TemplateView(drawerItemTemplate)
     .Mode("overlay")
     .Position("left")
     .Width(250)
@@ -21,20 +25,6 @@
     </div>
 </text>)
 )
-
-<script id="drawerTemplate" type="text/html">
-    <ul>
-        <li><a class="k-link" id="menuButton" data-role='drawer-item'><span id="menu"></span>Menu</a></li>
-        <li data-role='drawer-separator'></li>
-        <li><a class="k-link drawer-item" href="@Url.Action("Index", "Home")" data-role='drawer-item' id="homeItem"><span id="home"></span>Home</a></li>
-        <li><a class="k-link drawer-item" href="@Url.Action("Transactions", "Home")" data-role='drawer-item' id="transactionsItem"><span id="transactions"></span>Transactions</a></li>
-        <li><a class="k-link drawer-item" href="@Url.Action("Investments", "Home")" data-role='drawer-item' id="investmentsItem"><span id="investments"></span>Investments</a></li>
-        <li><a class="k-link drawer-item" href="@Url.Action("Analytics", "Home")" data-role='drawer-item' id="analyticsItem"><span id="analytics"></span>Analytics</a></li>
-        <li><a class="k-link drawer-item" href="@Url.Action("AiAssistant", "Home")" data-role='drawer-item' id="aiassistantItem"><span id="aiassistant"></span>AI Assistant</a></li>
-        <li data-role='drawer-separator'></li>
-        <li><a class="k-link drawer-item" href="@Url.Action("Settings", "Home")" data-role='drawer-item' id="settingsItem"><span id="settings"></span>Settings</a></li>
-    </ul>
-</script>
 
 <script>
     var isDrawerVisible = sessionStorage.getItem("isDrawerVisible") === "true";
@@ -84,8 +74,7 @@
     }
 
     function onItemClick(e) {
-        var ariaLabel = e.item[0].text;
-
+        var ariaLabel = e.item[0].text.trim();
         if (ariaLabel === "Menu") {
             e.preventDefault();
             $(e.item[0]).removeClass("k-selected");

@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Html
+@model IEnumerable<DrawerItemPartialModel>
+
+@{
+    Layout = null;
+}
+
+<ul>
+    <li>
+        <a class="k-link" id="menuButton" data-role='drawer-item'>
+            <span id="menu"></span>
+            Menu
+        </a>
+    </li>
+    @foreach (var item in Model)
+    {
+        var itemId = $"{item.Id}Item";
+
+        if (!item.IsSeparator)
+        {
+            <li>
+                <a class="k-link drawer-item" href="@item.Url" id="@itemId" data-role="drawer-item">
+                <span id="@item.Id"></span>
+                @{
+                    <text>@item.DisplayName</text>
+                }
+            </a>
+        </li>
+        }
+        else {
+            <li data-role="drawer-separator"></li>
+        }
+    }
+</ul>
