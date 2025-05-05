@@ -1,33 +1,41 @@
 ﻿function onDataBound(e) {
-        var grid = this;
-        var themeColor;
-        var text;
-        
-        grid.table.find("tr").each(function() {
-            var dataItem = grid.dataItem(this);
-        
-            if (dataItem.Status == 0){
-                themeColor = "success";
-                text = "Published";
-            }
-            else if (dataItem.Status == 1) {
-                themeColor = "warning";
-                text = "Pending";
-            }
-            else{
-                themeColor = "error";
-                text = "Postponed";
-            }
-            
-            $(this).find(".badgeTemplate").kendoBadge({
-                themeColor: themeColor,
-                text: text,
-                rounded: "large",
-            });
-            
-            
-            kendo.bind($(this), dataItem);
+    var grid = this;
+    var themeColor;
+    var text;
+
+    grid.table.find("tr").each(function (index) {
+        var dataItem = grid.dataItem(this);
+
+        const { themeColor, text } = updateStatus(dataItem.Status);
+
+        debugger;
+        $(this).find(".badgeTemplate").kendoBadge({
+            themeColor: themeColor,
+            text: text,
+            rounded: "large",
         });
+
+
+        kendo.bind($(this), dataItem);
+    });
+
+    let firstRow = $(grid.table).find("tr")[1];
+
+    $(firstRow)
+        .find(".k-font-icon")
+        .on("click", function (e) { })
+        .trigger("click");
+}
+
+function updateStatus(status) {
+    switch (status) {
+        case 0:
+            return { themeColor: "success", text: "Published" };
+        case 1:
+            return { themeColor: "warning", text: "Pending" };
+        default:
+            return { themeColor: "error", text: "Postponed" };
+    }
 }
 
 $(document).on("click", ".legend-toggle", function () {

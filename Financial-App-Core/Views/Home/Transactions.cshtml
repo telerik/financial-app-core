@@ -13,38 +13,89 @@
             <h4>Personal Transactions</h4>
             @(Html.Kendo().Grid<TransactionModel>()
                 .Name("transactionsGrid")
-                .ToolBar(t => { t.Excel(); t.Pdf(); })
+                .ToolBar(toolbar => { toolbar.Excel(); toolbar.Pdf(); })
                 .Columns(columns =>
                 {
-                    columns.Select().HtmlAttributes(new { @class = "selectColumn" }).HeaderHtmlAttributes(new { @class = "selectColumn" }).Width(50);
-                    columns.Bound(t => t.Date).Title("Date").Format("{0:MM/dd/yy}").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" });
+                    columns.Select()
+                           .HtmlAttributes(new { @class = "selectColumn" })
+                           .HeaderHtmlAttributes(new { @class = "selectColumn" })
+                           .Width(50);
+
+                    columns.Bound(t => t.Date)
+                           .Title("Date")
+                           .Format("{0:MM/dd/yy}")
+                           .HeaderHtmlAttributes(new 
+                           { 
+                               style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" 
+                           })
+                           .HtmlAttributes(new { style = "text-align: center" });
+                   
                     columns.Bound(t => t.Amount).Title("Amount").Format("{0:n2}")
                         .ClientTemplate("<span class='amountElem currency-value' data-amount='#=Amount#'>#=kendo.toString(Amount, 'n2')# USD</span>")
                         .ColumnMenu(false)
-                        .HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" })
+                        .HeaderHtmlAttributes(new 
+                        {
+                            style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" 
+                        })
                         .HtmlAttributes(new { style = "text-align: right; min-width: 95px;" });
-                    columns.Bound(t => t.Merchant).Title("Merchant").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" }).HtmlAttributes(new { style = "text-align: center" }).MinScreenWidth(768);
-                    columns.Bound(t => t.Status).Title("Status").ClientTemplate("<span class='badgeTemplate'></span>").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center" }).HtmlAttributes(new { style = "text-align: center" });
+                    
+                    columns.Bound(t => t.Merchant)
+                           .Title("Merchant")
+                           .HeaderHtmlAttributes(new 
+                           { 
+                               style = "text-align: center; justify-content: center; border-right: 1px solid #FFFFFF33;" 
+                           })
+                           .HtmlAttributes(new { style = "text-align: center" })
+                           .MinScreenWidth(768);
+
+                    columns.Bound(t => t.Status)
+                           .Title("Status")
+                           .ClientTemplate("<span class='badgeTemplate'></span>")
+                           .HeaderHtmlAttributes(new 
+                           { 
+                               style = "text-align: center; justify-content: center" 
+                           })
+                           .HtmlAttributes(new { style = "text-align: center" });
+                    
+                    columns.Command(command => command
+                                .Custom(" ")
+                                .Template("<span class='k-font-icon k-icon k-i-eye-slash' style='cursor:pointer;' onclick='showDetails(event)'></span>")
+                                .IconClass("")
+                                .Click("showDetails")
+                           )
+                    .ClientHeaderTemplate("View").Width(70);
                 })
-                .ColumnMenu(c => c.Enabled(true))
-                .Pageable(p => p.PageSizes(new[] { 7, 10, 30 }).PreviousNext(true).Responsive(true))
-                .Groupable(g => g.Messages(m => m.Empty("Drag a column header here to group by it")))
+                .ColumnMenu(columnMenu => columnMenu.Enabled(true))
+                .Pageable(pageable => pageable
+                    .PageSizes(new[] { 7, 10, 30 })
+                    .PreviousNext(true)
+                    .Responsive(true)
+                )
+                .Groupable(groupable => groupable
+                    .Messages(messages => messages
+                        .Empty("Drag a column header here to group by it")
+                    )
+                )
                 .Mobile(MobileMode.Phone)
-                .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetTransactions", "Grid")).PageSize(11))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Read(read => read.Action("GetTransactions", "Grid"))
+                    .PageSize(11)
+                )
                 .Events(e => e.DataBound("onDataBound"))
             )
         </div>
     </div>
-    <div class="k-col-span-6 k-col-span-md-2">
+    <div class="k-col-span-6 k-col-span-md-2" id="transaction-details">
         <div class="listview-card k-p-4 k-gap-6 k-d-flex k-flex-col">
             <h4>Transaction Details</h4>
             <div class="k-d-flex k-flex-col k-gap-4">
                 <div>
-                    <span class="k-d-inline-block">Murchant</span>
+                    <span class="k-d-inline-block">Merchant</span>
                     @(Html.Kendo().TextBox()
-                        .Name("murchant")
+                        .Name("merchant")
+                        .Readonly(true)
                         .Rounded(Rounded.None)
-                        .Value("Starbucks")
                     )
                 </div>
                 <div class="k-d-flex k-flex-col k-gap-3">
@@ -63,21 +114,21 @@
                     <span class="k-d-inline-block">Time</span>
                     @(Html.Kendo().TextBox()
                         .Name("time")
-                        .Value("09:10 AM January 1,2025")
+                        .Readonly(true)
                     )
                 </div>
                 <div class="k-d-grid">
                     <span class="k-d-inline-block">Customer</span>
                     @(Html.Kendo().TextBox()
                         .Name("customer")
-                        .Value("Maria Johnson")
+                        .Readonly(true)
                     )
                 </div>
                 <div class="k-d-grid">
                     <span class="k-d-inline-block">Email</span>
                     @(Html.Kendo().TextBox()
                         .Name("email")
-                        .Value("mariajohnson@email.com")
+                        .Readonly(true)
                     )
                 </div>
                 <div class="k-d-grid">
@@ -88,27 +139,76 @@
                     <span class="k-d-inline-block">Transaction Hash</span>
                     @(Html.Kendo().TextBox()
                         .Name("transactionHash")
-                        .Value("0xc30895ce0616c2eb832a67dbba")
-                        .Enable(false)
+                        .Readonly(true)
                     )
                 </div>
                 <div class="k-d-grid" style="margin-top: 1rem;">
                     <span class="k-d-inline-block">From</span>
                     @(Html.Kendo().TextBox()
                         .Name("fromHash")
-                        .Value("0xc30895ce0616c2eb832a67dbba")
-                        .Enable(false)
+                        .Readonly(true)
                     )
                 </div>
                 <div class="k-d-grid" style="margin-top: 1rem;">
                     <span class="k-d-inline-block">To</span>
                     @(Html.Kendo().TextBox()
                         .Name("toHash")
-                        .Value("0xc30895ce0616c2eb832a67dbba")
-                        .Enable(false)
+                        .Readonly(true)
                     )
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function showDetails(e) {
+        let target = e.currentTarget,
+            row = target.closest("tr"),
+            dataItem = $("#transactionsGrid")
+                .getKendoGrid()
+                .dataItem(row);
+
+        $("#merchant").getKendoTextBox().value(dataItem.Merchant);
+        $("#customer").getKendoTextBox().value(dataItem.Customer);
+        $("#time").getKendoTextBox().value(kendo.toString(dataItem.Date, "hh:mm MMMM d, yyyy"))
+        $("#email").getKendoTextBox().value(dataItem.Email);
+
+        $("#transactionHash").getKendoTextBox().value(dataItem.TransactionHash);
+        $("#fromHash").getKendoTextBox().value(dataItem.TransactionHash);
+        $("#toHash").getKendoTextBox().value(dataItem.TransactionHash);
+
+        const { themeColor, text } = updateStatus(dataItem.Status);
+
+        $("#orderBadge").getKendoBadge().setOptions({
+            themeColor: themeColor,
+            text: text
+        });
+
+        if($(target).hasClass("k-i-eye")) {
+            $(target)
+                .removeClass("k-i-eye")
+                .addClass("k-i-eye-slash");
+        }
+        else {
+            $(target)
+                .removeClass("k-i-eye-slash")
+                .addClass("k-i-eye");
+
+            alterClasses("k-i-eye", "k-i-eye-slash", row);
+            kendo.fx($("#transaction-details")).expand("vertical", {duration: 500}).play();
+        }
+    }
+
+    function alterClasses(currentClass, targetClass, targetElement) {
+        $("#transactionsGrid").getKendoGrid().table.find("tr").each(function() {
+            if(this != targetElement) {
+                $(this)
+                    .find(".k-i-eye")
+                    .removeClass(currentClass)
+                    .addClass(targetClass);
+            }
+        })
+    }
+
+</script>
