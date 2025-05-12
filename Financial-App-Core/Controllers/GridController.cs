@@ -24,7 +24,10 @@ namespace Financial_App_Core.Controllers
 
         public ActionResult GetTransactions([DataSourceRequest] DataSourceRequest request)
         {
-            var result = _context.Transactions.ToDataSourceResult(request);
+            var result = _context.Transactions
+                .ToList()
+                .ToDataSourceResult(request);
+            
             return Json(result);
         }
     }
