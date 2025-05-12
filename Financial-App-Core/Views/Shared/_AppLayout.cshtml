@@ -44,14 +44,8 @@
 
         var drawerInstance = $("#drawer").data("kendoDrawer");
 
-        if (isDrawerVisible) {
-            drawerInstance.show();
-            $(".k-drawer-content").addClass("overlay-active");
-        } 
-        else {
-            drawerInstance.hide();
-            $(".k-drawer-content").removeClass("overlay-active");
-        }
+        drawerInstance.hide();
+        $(".k-drawer-content").removeClass("overlay-active");
 
     });
 
