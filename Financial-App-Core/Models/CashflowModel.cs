@@ -7,6 +7,9 @@ namespace Financial_App_Core.Models
         [Key]
         public int Id { get; set; }
 
+
+        public DateTime Date { get; set; }
+
         public string Month { get; set; }
 
         public int Stocks { get; set; }
