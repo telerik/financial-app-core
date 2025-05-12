@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +78,7 @@ void SeedDatabase(FinancialDbContext db)
         {
             Month = month,
             Stocks = random.Next(10000, 50000),
+            Date = new DateTime(2025 + random.Next(1, 10), DateTimeFormatInfo.CurrentInfo.MonthNames.ToList().IndexOf(month) + 1, random.Next(1, 12)),
             RealEstate = random.Next(10000, 50000),
             Bonds = random.Next(10000, 50000)
         }));
