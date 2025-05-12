@@ -8,7 +8,6 @@
 
         const { themeColor, text } = updateStatus(dataItem.Status);
 
-        debugger;
         $(this).find(".badgeTemplate").kendoBadge({
             themeColor: themeColor,
             text: text,
