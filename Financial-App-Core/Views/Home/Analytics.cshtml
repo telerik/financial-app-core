@@ -37,10 +37,11 @@
                             .DataTextField("Text")
                             .DataValueField("Value")
                             .BindTo(new[] {
-                                 new { Text = "Year", Value = "Year" },
-                                 new { Text = "Quarter", Value = "Quarter" },
-                                 new { Text = "Month", Value = "Month" }
+                                 new { Text = "Month", Value = "months" },
+                                 new { Text = "Year", Value = "years" },
+                                 new { Text = "Weeks", Value = "weeks" }
                             })
+                            .Events(events => events.Change("onChange"))
                             .Value("Year")
                             .Size(ComponentSize.Small)
                         )
@@ -59,14 +60,15 @@
                 .DataSource(ds => ds.Read(read => read.Action("GetCashflowData", "Chart")))
                 .Series(series =>
                 {
-                    series.Column(model => model.Stocks).Name("Stocks").CategoryField("Month").Color("#9C27B0");
-                    series.Column(model => model.RealEstate).Name("Real Estate").CategoryField("Month").Color("#008478");
-                    series.Column(model => model.Bonds).Name("Bonds").CategoryField("Month").Color("#E0CF34");
+                    series.Column(model => model.Stocks).Name("Stocks").CategoryField("Date").Color("#9C27B0");
+                    series.Column(model => model.RealEstate).Name("Real Estate").CategoryField("Date").Color("#008478");
+                    series.Column(model => model.Bonds).Name("Bonds").CategoryField("Date").Color("#E0CF34");
                 })
                 .CategoryAxis(axis => axis
+                    .Date()
+                    .BaseUnit(ChartAxisBaseUnit.Months)
                     .Labels(labels => labels
                         .Rotation(270)
-                        .Template("#= value.substring(0,3) #")
                     )
                     .MajorGridLines(lines => lines.Visible(true))
                 )
@@ -108,3 +110,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    function onChange(e){
+        var chart = $("#cashFlow").data("kendoChart"),
+            categoryAxis = chart.options.categoryAxis;
+
+            categoryAxis.baseUnit = e.sender.value();
+            chart.refresh();
+    }
+</script>
