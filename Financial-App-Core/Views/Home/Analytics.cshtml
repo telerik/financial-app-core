@@ -99,10 +99,10 @@
                     columns.Bound(t => t.Status).Title("Status").ClientTemplate("<span class='badgeTemplate'></span>").HeaderHtmlAttributes(new { style = "text-align: center; justify-content: center" }).HtmlAttributes(new { style = "text-align: center" });
                 })
                 .ColumnMenu(c => c.Enabled(true))
-                .Pageable(p => p.PageSizes(new[] { 7, 10, 30 }).PreviousNext(true).Responsive(true))
+                .Pageable(p => p.PageSizes(new[] { 5, 10, 30 }).PreviousNext(true).Responsive(true))
                 .Groupable(g => g.Messages(m => m.Empty("Drag a column header here to group by it")))
                 .Mobile(MobileMode.Phone)
-                .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetTransactions", "Grid")).PageSize(7))
+                .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetTransactions", "Grid")).PageSize(10))
                 .Events(e => e.DataBound("onDataBound"))
             )
         </div>

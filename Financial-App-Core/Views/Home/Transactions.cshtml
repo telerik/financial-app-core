@@ -67,7 +67,7 @@
                 })
                 .ColumnMenu(columnMenu => columnMenu.Enabled(true))
                 .Pageable(pageable => pageable
-                    .PageSizes(new[] { 7, 10, 30 })
+                    .PageSizes(new[] { 5, 10, 30 })
                     .PreviousNext(true)
                     .Responsive(true)
                 )
@@ -80,7 +80,7 @@
                 .DataSource(dataSource => dataSource
                     .Ajax()
                     .Read(read => read.Action("GetTransactions", "Grid"))
-                    .PageSize(11)
+                    .PageSize(10)
                 )
                 .Events(e => e.DataBound("onDataBound"))
             )
