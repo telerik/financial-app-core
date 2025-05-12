@@ -8,7 +8,7 @@
 <h1 class="k-px-md-15 k-p-5 k-m-0">Transactions</h1>
 
 <div class="k-d-grid k-grid-cols-1 k-grid-cols-md-6 k-gap-5 k-p-md-5 k-px-md-15 k-p-5">
-    <div class="k-col-span-6 k-col-span-md-4">
+    <div id="transactions-container" class="k-col-span-6 k-col-span-md-4">
         <div class="listview-card k-p-4">
             <h4>Personal Transactions</h4>
             @(Html.Kendo().Grid<TransactionModel>()
@@ -189,6 +189,11 @@
             $(target)
                 .removeClass("k-i-eye")
                 .addClass("k-i-eye-slash");
+
+            $("#transaction-details").hide();
+
+            $("#transactions-container")
+                .removeClass("k-col-span-md-4");
         }
         else {
             $(target)
@@ -196,6 +201,11 @@
                 .addClass("k-i-eye");
 
             alterClasses("k-i-eye", "k-i-eye-slash", row);
+
+            $("#transactions-container")
+                .addClass("k-col-span-md-4");
+
+            $("#transaction-details").show();
             kendo.fx($("#transaction-details")).expand("vertical", {duration: 500}).play();
         }
     }
