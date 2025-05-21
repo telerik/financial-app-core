@@ -38,6 +38,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UsePathBase("/aspnet-core/finance-dashboard/");
 app.UseStaticFiles();
 
 app.UseRouting();
