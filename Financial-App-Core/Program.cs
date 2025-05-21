@@ -14,10 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
-builder.Services.AddKendo(x =>
-{
-    x.DeferToScriptFiles = true;
-});
+builder.Services.AddKendo();
 
 builder.Services.AddDbContext<FinancialDbContext>(options =>
 {
@@ -44,8 +41,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
-app.UseMiddleware<KendoDeferredScriptsMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

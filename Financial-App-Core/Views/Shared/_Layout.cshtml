@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")" />
 
     <title>@ViewData["Title"] - Financial Dashboard</title>
 
@@ -15,32 +16,24 @@
     <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
     <script src="https://cdn.kendostatic.com/2025.1.227/js/kendo.all.min.js"></script>
     <script src="https://cdn.kendostatic.com/2025.1.227/js/kendo.aspnetmvc.min.js"></script>
-    <script src="~/js/site.js"></script>
+    <script src="@Url.Content("~/js/site.js")"></script>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="@Url.Content("~/lib/bootstrap/css/bootstrap.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/10.2.0/utils/all.css" />
 </head>
 <body class="k-content">
-    @(Html.Kendo().DeferredScriptFile())
-            @RenderBody()
+    
+    @RenderBody()
 
     <div class="k-py-6.5 k-px-15 k-bg-surface-alt">
         <a class="k-link k-avatar k-primary" href="https://github.com/telerik/financial-app-core" style="display: inline-flex; align-items: center; gap: 0.5rem; color: white;">
-            <img src="~/images/GitHub-logo.svg" alt="UNI" style="width: 25px; height: 25px;" />
+            <img src="@Url.Content("~/images/GitHub-logo.svg")" alt="UNI" style="width: 25px; height: 25px;" />
             <span class="footerText">Get the Source Code</span>
         </a>
 
         <p class="!k-my-0 footerText">Copyright © 2025 Progress Software. All rights reserved.</p>
     </div>
-
-    <environment names="Development">
-        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    </environment>
-
-    @RenderSection("scripts", required: false)
+     
 </body>
 </html>
