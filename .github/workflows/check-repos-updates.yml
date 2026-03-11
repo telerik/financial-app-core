@@ -13,6 +13,6 @@ jobs:
       - name: Clean up
         run: rm -rf kendo-*
       - name: Get repos deps
-        run: .github/workflows/check-repos-updates.sh ${{ secrets.GH_TOKEN }}
+        run: bash .github/workflows/check-repos-updates.sh ${{ secrets.GH_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
